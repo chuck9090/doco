@@ -1,32 +1,35 @@
-# vue-chrome-extension-template
+# doco 说明
 `vue-cli3` + `webpack4` + `element-ui`  实现编译打包Chrome浏览器插件
 
 ## 环境安装
 ```
-yarn install
+npm install
 ```
 
 ### 开发环境编译并热更新
 ```
-yarn run serve
+npm run serve
 or
-yarn run build-watch
+npm run build-watch
 ```
 
 ### 生产环境打包
 ```
-yarn run build
+npm run build
 ```
 
 ### 分析包组件大小
 ```
-yarn run analyze
+npm run analyze
 ```
 
 ### Lints and fixes files
 ```
-yarn run lint
+npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 资料参考
+[vue-cli3开发Chrome插件实践](https://blog.csdn.net/weixin_34404393/article/details/91476348)
+
+[【干货】Chrome插件(扩展)开发全攻略](https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html)
+
