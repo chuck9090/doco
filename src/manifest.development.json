@@ -1,0 +1,42 @@
+{
+	"manifest_version": 2,
+	"name": "doco",
+	"description": "氚云小工具（To do code）",
+	"version": "0.0.1",
+	"icons": {
+		"16": "assets/favicon.png",
+		"48": "assets/favicon.png",
+		"128": "assets/favicon.png"
+	},
+	"options_page": "options.html",
+	"browser_action": {
+		"default_title": "氚云小工具（To do code）",
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"scripts": ["hot-reload.js", "js/background.js"]
+	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"content_scripts": [{
+		"matches": [
+			"*://*.h3yun.com/*"
+		],
+		"js": [
+			"js/content.js"
+		],
+		"run_at": "document_end"
+	}],
+	"web_accessible_resources": [
+		"fonts/*",
+		"assets/*"
+	],
+	"homepage_url": "https://www.h3yun.com",
+	"permissions": [
+		"tabs",
+		"cookies",
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"*://*.h3yun.com/*"
+	]
+}
