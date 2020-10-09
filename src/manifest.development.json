@@ -9,7 +9,8 @@
 		"128": "assets/favicon.png"
 	},
 	"options_page": "options.html",
-	"browser_action": {
+	"page_action": {
+		"default_icon": "assets/favicon.png",
 		"default_title": "氚云小工具（To do code）",
 		"default_popup": "popup.html"
 	},
@@ -33,6 +34,7 @@
 	"homepage_url": "https://www.h3yun.com",
 	"permissions": [
 		"tabs",
+		"contextMenus",
 		"cookies",
 		"storage",
 		"webRequest",
