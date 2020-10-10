@@ -11,6 +11,8 @@ require(['../utils/common.js'], function(commonObj) {
 					let queryParam = getLinkUrl(param.linkUrl)
 					if (queryParam) {
 						alert(JSON.stringify(queryParam));
+						debugger
+						window.open("https://www.h3yun.com/doco/single-data-query"); 
 					} else {
 						alert("不符合要求");
 					}
