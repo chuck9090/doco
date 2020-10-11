@@ -3,7 +3,6 @@ const ZipPlugin = require("zip-webpack-plugin")
 const path = require("path");
 const fs = require("fs");
 
-
 function getPackageVersion() {
 	const pkgPath = path.join(__dirname, "package.json");
 	const pkgData = JSON.parse(fs.readFileSync(pkgPath));
@@ -12,7 +11,7 @@ function getPackageVersion() {
 
 // Generate pages object
 const pagesObj = {};
-const chromeName = ["popup", "options"];
+const chromeName = ["popup", "options", "singleDataQuery"];
 
 const proFileName = "dist";
 
@@ -48,7 +47,7 @@ const plugins = [
 if (process.env.NODE_ENV !== "production") {
 	plugins.push(
 		CopyWebpackPlugin([{
-			from: path.resolve("src/utils/hot-reload.js"),
+			from: path.resolve("src/utils/hotReload.js"),
 			to: path.resolve(proFileName)
 		}])
 	)
