@@ -1,39 +1,45 @@
 {
-    "manifest_version": 2,
-    "name": "vue-extension-template",
-    "description": "vue chrome extension template",
-    "version": "0.0.1",
-//    "options_page": "options.html",
-    "permissions": [
-        "tabs",
-        "cookies",
-        "storage",
-        "webRequest",
-        "webRequestBlocking",
-        "*://*.linkedin.com/*"
-    ],
-    "browser_action": {
-        "default_popup": "popup.html"
-    },
-    "background": {
-        "scripts": ["js/background.js"]
-    },
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "content_scripts": [{
-        "matches": [
-            "*://*.linkedin.com/*"
-        ],
-        "css": [
-            "css/content.css"
-        ],
-        "js": [
-            "js/content.js"
-        ],
-        "run_at": "document_end"
-    }],
-    "web_accessible_resources": [
-        "fonts/*",
-        "assets/*"
-    ],
-    "homepage_url": "https://db.capvision.com"
+	"manifest_version": 2,
+	"name": "doco",
+	"description": "氚云小工具（To do code）",
+	"version": "0.0.1",
+	"icons": {
+		"16": "assets/favicon.png",
+		"48": "assets/favicon.png",
+		"128": "assets/favicon.png"
+	},
+	"options_page": "options.html",
+	"page_action": {
+		"default_icon": "assets/favicon.png",
+		"default_title": "氚云小工具（To do code）",
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"scripts": ["js/background.js"]
+	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"content_scripts": [{
+		"matches": [
+			"*://*.h3yun.com/*"
+		],
+		"js": [
+			"js/content.js"
+		],
+		"run_at": "document_end"
+	}],
+	"web_accessible_resources": [
+		"fonts/*",
+		"assets/*"
+	],
+	"homepage_url": "https://www.h3yun.com",
+	"permissions": [
+		"notifications",
+		"tabs",
+		"contextMenus",
+		"cookies",
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"*://*.h3yun.com/*"
+	]
 }
