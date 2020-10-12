@@ -35,3 +35,7 @@ npm run lint
 
 [chrome扩展开发中文教程](http://chrome.cenchy.com/index.html)
 
+[Vue.js文档](https://cn.vuejs.org/v2/guide/)
+
+[View UI文档](https://www.iviewui.com/docs/introduce)
+
