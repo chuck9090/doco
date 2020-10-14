@@ -1,5 +1,5 @@
 # doco 说明
-`vue-cli3` + `webpack4` + `element-ui`  实现编译打包Chrome浏览器插件
+`vue-cli3` + `webpack4` + `View UI`  实现编译打包Chrome浏览器插件
 
 ## 环境安装
 ```
