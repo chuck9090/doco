@@ -20,6 +20,4 @@ const common = {
 	}
 };
 
-export {
-	common
-}
+export default common;

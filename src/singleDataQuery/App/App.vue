@@ -9,7 +9,7 @@
 </template>
 
 <script>
-const commonObj = require('../../utils/common.js');
+import commonObj from '../../utils/common.js';
 
 export default {
 	name: 'singleDataQuery',
@@ -21,7 +21,7 @@ export default {
 	},
 	methods: {
 		showError(msg) {
-			debugger
+			debugger;
 			this.$Notice.error({
 				title: msg
 			});
@@ -30,16 +30,17 @@ export default {
 	created() {
 		const qParam = window.location.search;
 		if (qParam) {
-			let schemaCode = commonObj.common.getQueryString(qParam, 'SchemaCode');
-			let bizObjectId = commonObj.common.getQueryString(qParam, 'BizObjectId');
+			debugger;
+			let schemaCode = commonObj.getQueryString(qParam, 'SchemaCode');
+			let bizObjectId = commonObj.getQueryString(qParam, 'BizObjectId');
 			if (schemaCode && bizObjectId) {
 				this.schemaCode = schemaCode;
 				this.bizObjectId = bizObjectId;
 			} else {
-				this.showError("URL缺少关键参数！");
+				this.showError('URL缺少关键参数！');
 			}
 		} else {
-			this.showError("URL缺少关键参数！");
+			this.showError('URL缺少关键参数！');
 		}
 	}
 };

@@ -1,21 +1,14 @@
 import Vue from "vue";
 import AppComponent from "./App/App.vue";
 
-import {
-	Button,
-	Tabs,
-	TabPane,
-	Dropdown,
-	DropdownMenu,
-	Notice
-} from "view-design";
+import * as viewui from "view-design";
 import "view-design/dist/styles/iview.css";
-Vue.component("Button", Button);
-Vue.component("Tabs", Tabs);
-Vue.component("TabPane", TabPane);
-Vue.component("Dropdown", Dropdown);
-Vue.component("DropdownMenu", DropdownMenu);
-Vue.prototype.$Notice = Notice;
+Vue.component("Button", viewui.Button);
+Vue.component("Tabs", viewui.Tabs);
+Vue.component("TabPane", viewui.TabPane);
+Vue.component("Dropdown", viewui.Dropdown);
+Vue.component("DropdownMenu", viewui.DropdownMenu);
+Vue.prototype.$Notice = viewui.Notice;
 
 Vue.component("app-component", AppComponent);
 
