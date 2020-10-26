@@ -12,8 +12,6 @@ const cookieManager = {
 				const currCookieName = changeInfo.cookie.name;
 				const currCookieValue = changeInfo.cookie.value;
 				_this.cacheCookies[currCookieName] = currCookieValue;
-
-				_this.saveToStorage();
 			}
 		});
 	},
@@ -30,8 +28,6 @@ const cookieManager = {
 					newCacheCookies[cs[i].name] = cs[i].value;
 				}
 				_this.cacheCookies = newCacheCookies;
-
-				_this.saveToStorage();
 			}
 		});
 	},
@@ -41,29 +37,6 @@ const cookieManager = {
 		setInterval(function() {
 			_this.updateAllCookie();
 		}, 5000);
-	},
-	getAllCookies: function(success, fail) {
-		var _this = this;
-
-		chrome.storage.local.get([_this.storageName], function(result) {
-			if (result && result[_this.storageName]) {
-				if (success) {
-					success(result[_this.storageName]);
-				}
-			} else {
-				if (fail) {
-					fail("no cookies!");
-				}
-			}
-		});
-	},
-	saveToStorage: function() {
-		var _this = this;
-		chrome.storage.local.set({
-			[_this.storageName]: _this.cacheCookies
-		}, function() {
-			//console.log(_this.storageName + " To local storage success!");
-		});
 	},
 	init: function() {
 		var _this = this;

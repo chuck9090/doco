@@ -23,7 +23,6 @@ export default {
 	},
 	methods: {
 		showError(msg) {
-			debugger;
 			this.$Notice.error({
 				title: msg
 			});
@@ -32,7 +31,6 @@ export default {
 	created() {
 		const qParam = window.location.search;
 		if (qParam) {
-			debugger;
 			let schemaCode = commonObj.getQueryString(qParam, 'SchemaCode');
 			let bizObjectId = commonObj.getQueryString(qParam, 'BizObjectId');
 			if (schemaCode && bizObjectId) {
@@ -52,7 +50,5 @@ export default {
 </script>
 
 <style scoped>
-.main_app {
-	padding: 20px;
-}
+
 </style>
