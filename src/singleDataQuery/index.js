@@ -15,7 +15,9 @@ Vue.component("Tabs", viewui.Tabs);
 Vue.component("TabPane", viewui.TabPane);
 Vue.component("Dropdown", viewui.Dropdown);
 Vue.component("DropdownMenu", viewui.DropdownMenu);
+Vue.component("Alert", viewui.Alert);
 Vue.prototype.$Notice = viewui.Notice;
+Vue.prototype.$Message = viewui.Message;
 
 import AppComponent from "./App/App.vue";
 Vue.component("app-component", AppComponent);
