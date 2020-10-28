@@ -9,15 +9,15 @@
 					<Col span="16">
 					<template v-if="companyInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
 							<Col span="8" class="info-item"><span class="info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
+							<Col span="8" class="info-item"><span class="info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
 							<Col span="8" class="info-item"><span class="info-title">版本：</span>{{getCompanyType()}}</Col>
 						</Row>
 					</template>
 					<template v-if="userInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
 							<Col span="8" class="info-item"><span class="info-title">UserId：</span>{{userInfo.CurUser.UserId}}</Col>
+							<Col span="8" class="info-item"><span class="info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
 							<Col span="8" class="info-item"><span class="info-title">权限：</span>{{getUserRole()}}</Col>
 						</Row>
 					</template>
@@ -41,7 +41,8 @@
 		data() {
 			return {
 				userInfo: null,
-				companyInfo: null
+				companyInfo: null,
+				developmentInfo: null
 			};
 		},
 		computed: {
@@ -59,11 +60,15 @@
 				});
 			},
 			//获取用户信息
-			getUserInfo() {
+			getUserInfo(success) {
 				const _this = this;
 
 				requestHelper.GetUserInfo().then((data) => {
 					_this.userInfo = data;
+
+					if (success) {
+						success();
+					}
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -83,16 +88,6 @@
 				}
 				return role;
 			},
-			//获取企业信息
-			getCompanyInfo() {
-				const _this = this;
-
-				requestHelper.GetCustomerInfo().then((data) => {
-					_this.companyInfo = data;
-				}).catch((error) => {
-					_this.$bus.emit("showError", error);
-				});
-			},
 			getCompanyType() {
 				const _this = this;
 
@@ -106,30 +101,88 @@
 				}
 				return ty;
 			},
-			//主框架数据加载完毕
+			//获取企业信息
+			getCompanyInfo(success) {
+				const _this = this;
+
+				requestHelper.GetCustomerInfo().then((data) => {
+					_this.companyInfo = data;
+
+					if (success) {
+						success();
+					}
+				}).catch((error) => {
+					_this.$bus.emit("showError", error);
+				});
+			},
+			//获取企业EngineSecret信息
+			getDevelopmentInfo(success) {
+				const _this = this;
+
+				requestHelper.GetCompanyDevelopmentInfo().then((data) => {
+					_this.developmentInfo = data;
+
+					if (success) {
+						success();
+					}
+				}).catch((error) => {
+					_this.$bus.emit("showError", error);
+				});
+			},
+			initMasterData() {
+				const _this = this;
+
+				_this.getUserInfo(() => {
+					_this.getCompanyInfo(() => {
+						if (_this.getCompanyType() == "专业版") {
+							_this.getDevelopmentInfo();
+						} else {
+							_this.$bus.emit("showError", "doco功能只支持氚云企业版！");
+						}
+					});
+				});
+			},
 			getMasterData(callback) {
 				const _this = this;
 
-				if (_this.userInfo && _this.companyInfo) {
+				let t = setInterval(() => {
+					if (_this.userInfo && _this.companyInfo && _this.developmentInfo) {
+						if (t) {
+							clearInterval(t);
+							t = null;
+						}
+
+						callback({
+							userInfo: _this.$data.userInfo,
+							companyInfo: _this.$data.companyInfo,
+							developmentInfo: _this.$data.developmentInfo
+						});
+					}
+				}, 100);
+			},
+			getEngineInfo(callback) {
+				const _this = this;
+
+				_this.getMasterData((masterData) => {
 					callback({
-						userInfo: _this.userInfo,
-						companyInfo: _this.companyInfo
+						engineCode: masterData.developmentInfo.EngineCode,
+						engineSecret: masterData.developmentInfo.Secret
 					});
-				}
-				callback(null);
+				});
 			},
 			registerBus() {
 				this.$bus.on("showError", this.showError);
 				this.$bus.on("getMasterData", this.getMasterData);
+				this.$bus.on("getEngineInfo", this.getEngineInfo);
 			}
+
 		},
 		created() {
 			const _this = this;
 
 			_this.registerBus();
 
-			_this.getCompanyInfo();
-			_this.getUserInfo();
+			_this.initMasterData();
 		}
 	};
 </script>
@@ -178,6 +231,10 @@
 	.content {
 		margin: 73px 8px 8px 8px;
 		background: #fff;
+
+		position: absolute;
+		width: calc(100% - 16px);
+		height: calc(100% - 82px);
 		min-height: 500px;
 	}
 </style>

@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "doco",
-	"description": "氚云小工具（Go do code）",
+	"description": "氚云开发者辅助工具（To do code）",
 	"version": "0.0.1",
 	"icons": {
 		"16": "assets/favicon.png",
@@ -11,7 +11,7 @@
 	"options_page": "options.html",
 	"page_action": {
 		"default_icon": "assets/favicon.png",
-		"default_title": "氚云小工具（Go do code）",
+		"default_title": "氚云开发者辅助工具（To do code）",
 		"default_popup": "popup.html"
 	},
 	"background": {

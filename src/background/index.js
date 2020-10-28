@@ -6,7 +6,7 @@ require("../singleDataQuery/addSingleDataQueryMenus.js");
 
 //测试
 let testPageUrl = chrome.extension.getURL(
-	"singleDataQuery.html?SchemaCode=D000471WZFL&BizObjectId=e091a701-781c-4c07-8d65-15d75297c091");
+	"singleDataQuery.html?SchemaCode=D001509mms60wxbv7tzufoa6wlo2dni0&BizObjectId=ef071fab-2043-4e6e-9f13-a877425a5a5c");
 chrome.tabs.create({
 	url: testPageUrl,
 	selected: true

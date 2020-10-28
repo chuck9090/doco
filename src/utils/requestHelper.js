@@ -2,7 +2,51 @@ import axios from "axios";
 import qs from "qs";
 
 const requestHelper = {
+	Invoke(engineCode, engineSecret, postData) {
+		const url = "https://www.h3yun.com/OpenApi/Invoke";
 
+		return new Promise((resolve, reject) => {
+			axios.post(url, postData, {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+					"EngineCode": engineCode,
+					"EngineSecret": engineSecret
+				},
+				timeout: 5000
+			}).then((response) => {
+				if (response.status == 200 && response.data) {
+					if (response.data.Successful && response.data.ReturnData) {
+						resolve(response.data.ReturnData);
+					} else if (response.data.ErrorMessage) {
+						reject(response.data.ErrorMessage);
+					} else {
+						reject("氚云Invoke接口响应数据异常！");
+					}
+				} else {
+					reject("氚云Invoke接口请求失败！");
+				}
+			}).catch((error) => {
+				reject("氚云Invoke接口请求失败！");
+			});
+		});
+	},
+	LoadBizObject(engineInfo, bizInfo) {
+		return new Promise((resolve, reject) => {
+			this.Invoke(engineInfo.engineCode, engineInfo.engineSecret, {
+				"ActionName": "LoadBizObject",
+				"SchemaCode": bizInfo.schemaCode,
+				"BizObjectId": bizInfo.bizObjectId
+			}).then((data) => {
+				if (data.BizObject) {
+					resolve(data.BizObject);
+				} else {
+					reject("氚云LoadBizObject接口响应数据异常！");
+				}
+			}).catch((error) => {
+				reject(error);
+			});
+		});
+	},
 	OnAction(url, postData) {
 		let pa = qs.stringify({
 			"PostData": JSON.stringify(postData)
@@ -10,10 +54,10 @@ const requestHelper = {
 		return new Promise((resolve, reject) => {
 			axios.post(url, pa, {
 				headers: {
-					"content-type": "application/x-www-form-urlencoded"
+					"Content-Type": "application/x-www-form-urlencoded"
 				},
-				timeout: 3000
-			}).then(function(response) {
+				timeout: 5000
+			}).then((response) => {
 				if (response.status == 200 && response.data) {
 					if (response.data.Successful && response.data.ReturnData) {
 						resolve(response.data.ReturnData);
@@ -25,7 +69,7 @@ const requestHelper = {
 				} else {
 					reject("氚云OnAction接口请求失败！");
 				}
-			}).catch(function(error) {
+			}).catch((error) => {
 				reject("氚云OnAction接口请求失败！");
 			});
 		});
@@ -38,6 +82,11 @@ const requestHelper = {
 	GetCustomerInfo() {
 		return this.OnAction("https://www.h3yun.com/Navigation/OnAction", {
 			"ActionName": "GetCustomerInfo"
+		});
+	},
+	GetCompanyDevelopmentInfo() {
+		return this.OnAction("https://www.h3yun.com/Console/Systemintergration/OnAction", {
+			"ActionName": "GetCompanyDevelopmentInfo"
 		});
 	}
 };
