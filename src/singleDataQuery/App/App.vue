@@ -50,11 +50,11 @@
 
 				if (_this.bizInfo) {
 					_this.$bus.emit("getEngineInfo", (engineInfo) => {
-						requestHelper.LoadBizObject(engineInfo, _this.bizInfo).then((data) => {
-							_this.jsonData = JSON.stringify(data,null,"\t");
-						}).catch((error) => {
-							_this.$bus.emit("showError", error);
-						});
+						// requestHelper.LoadBizObject(engineInfo, _this.bizInfo).then((data) => {
+						// 	_this.jsonData = JSON.stringify(data, null, "\t");
+						// }).catch((error) => {
+						// 	_this.$bus.emit("showError", error);
+						// });
 					});
 				}
 			},

@@ -19,7 +19,7 @@ import commonObj from '../utils/common.js';
 							selected: true
 						});
 					} else {
-						alert("不符合要求");
+						alert("非表单数据！");
 					}
 				}
 			} catch (e) {

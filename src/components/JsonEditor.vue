@@ -16,7 +16,8 @@
 					// 编辑器中间的参考竖线
 					showPrintMargin: false,
 					// 自动换行
-					wrap: "free"
+					wrap: "free",
+					readOnly: true
 				}
 			};
 		},
