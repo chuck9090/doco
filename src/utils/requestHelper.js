@@ -8,7 +8,7 @@ const requestHelper = {
 		return new Promise((resolve, reject) => {
 			axios.post(url, postData, {
 				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
+					"Content-Type": "application/json",
 					"EngineCode": engineCode,
 					"EngineSecret": engineSecret
 				},
@@ -87,6 +87,13 @@ const requestHelper = {
 	GetCompanyDevelopmentInfo() {
 		return this.OnAction("https://www.h3yun.com/Console/Systemintergration/OnAction", {
 			"ActionName": "GetCompanyDevelopmentInfo"
+		});
+	},
+	CheckSQL(sql) {
+		return this.OnAction("https://www.h3yun.com/Console/Reporting/OnAction", {
+			"ActionName": "CheckSQL",
+			"Sql": sql,
+			"Columns": "[]"
 		});
 	}
 };

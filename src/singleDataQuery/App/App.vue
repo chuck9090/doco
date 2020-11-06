@@ -69,7 +69,7 @@
 
 			_this.getParamByUrl();
 
-			_this.loadData();
+			//_this.loadData();
 		},
 		components: {
 			Master,

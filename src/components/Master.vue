@@ -4,21 +4,21 @@
 			<Header class="header">
 				<Row>
 					<Col span="3">
-					<img class="logo" src="../assets/logo.png" alt="" />
+					<img class="unselect logo" src="../assets/logo.png" alt="" />
 					</Col>
 					<Col span="16">
 					<template v-if="companyInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
-							<Col span="8" class="info-item"><span class="info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
-							<Col span="8" class="info-item"><span class="info-title">版本：</span>{{getCompanyType()}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">版本：</span>{{getCompanyType()}}</Col>
 						</Row>
 					</template>
 					<template v-if="userInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="info-title">UserId：</span>{{userInfo.CurUser.UserId}}</Col>
-							<Col span="8" class="info-item"><span class="info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
-							<Col span="8" class="info-item"><span class="info-title">权限：</span>{{getUserRole()}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">UserId：</span>{{userInfo.CurUser.UserId}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
+							<Col span="8" class="info-item"><span class="unselect info-title">权限：</span>{{getUserRole()}}</Col>
 						</Row>
 					</template>
 					</Col>
@@ -193,6 +193,13 @@
 
 	}
 
+	.unselect {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
 	.header {
 		background: #fff;
 		position: fixed;
@@ -221,10 +228,6 @@
 	}
 
 	.info-title {
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
 		font-weight: bold;
 	}
 

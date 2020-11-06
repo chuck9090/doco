@@ -11,7 +11,7 @@ function getPackageVersion() {
 
 // Generate pages object
 const pagesObj = {};
-const chromeName = ["popup", "options", "singleDataQuery"];
+const chromeName = ["popup", "options", "singleDataQuery", "sqlExec"];
 
 const proFileName = "dist";
 
@@ -70,7 +70,7 @@ module.exports = {
 	productionSourceMap: false,
 	configureWebpack: {
 		entry: {
-			"content": "./src/content/index.js",
+			//"content": "./src/content/index.js",
 			"background": "./src/background/index.js"
 		},
 		output: {

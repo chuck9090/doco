@@ -9,7 +9,7 @@
 		"128": "assets/favicon.png"
 	},
 	"options_page": "options.html",
-	"page_action": {
+	"browser_action": {
 		"default_icon": "assets/favicon.png",
 		"default_title": "氚云开发者辅助工具（To do code）",
 		"default_popup": "popup.html"
@@ -18,23 +18,21 @@
 		"scripts": ["js/background.js"]
 	},
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-	"content_scripts": [{
-		"matches": [
-			"*://*.h3yun.com/*"
-		],
-		"js": [
-			"js/content.js"
-		],
-		"run_at": "document_end"
-	}],
+	// "content_scripts": [{
+	// 	"matches": [
+	// 		"*://*.h3yun.com/*"
+	// 	],
+	// 	"js": [
+	// 		"js/content.js"
+	// 	],
+	// 	"run_at": "document_end"
+	// }],
 	"web_accessible_resources": [
 		"fonts/*",
 		"assets/*"
 	],
 	"homepage_url": "https://www.h3yun.com",
 	"permissions": [
-		"notifications",
-		"tabs",
 		"contextMenus",
 		"cookies",
 		"storage",
