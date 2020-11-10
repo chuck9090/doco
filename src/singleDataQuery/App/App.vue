@@ -35,8 +35,8 @@
 					let bizObjectId = commonObj.getQueryString(qParam, "BizObjectId");
 					if (schemaCode && bizObjectId) {
 						_this.bizInfo = {
-							schemaCode: schemaCode,
-							bizObjectId: bizObjectId
+							"schemaCode": schemaCode,
+							"bizObjectId": bizObjectId
 						};
 					} else {
 						_this.$bus.emit("showError", "URL缺少关键参数！");
@@ -45,16 +45,14 @@
 					_this.$bus.emit("showError", "URL缺少关键参数！");
 				}
 			},
-			loadJsonData(masterData) {
+			loadJsonData() {
 				const _this = this;
 
 				if (_this.bizInfo) {
-					_this.$bus.emit("getEngineInfo", (engineInfo) => {
-						requestHelper.LoadBizObject(engineInfo, _this.bizInfo).then((data) => {
-							_this.jsonData = JSON.stringify(data, null, "\t");
-						}).catch((error) => {
-							_this.$bus.emit("showError", error);
-						});
+					requestHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
+						_this.jsonData = commonObj.toBeautifyJson(data);
+					}).catch((error) => {
+						_this.$bus.emit("showError", error);
 					});
 				}
 			},
@@ -69,7 +67,7 @@
 
 			_this.getParamByUrl();
 
-			//_this.loadData();
+			_this.loadData();
 		},
 		components: {
 			Master,

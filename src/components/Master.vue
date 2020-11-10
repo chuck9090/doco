@@ -1,12 +1,12 @@
 <template>
 	<div id="app">
-		<Layout>
+		<Layout class="main">
 			<Header class="header">
 				<Row>
 					<Col span="3">
 					<img class="unselect logo" src="../assets/logo.png" alt="" />
 					</Col>
-					<Col span="16">
+					<Col span="17">
 					<template v-if="companyInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
 							<Col span="8" class="info-item"><span class="unselect info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
@@ -22,7 +22,7 @@
 						</Row>
 					</template>
 					</Col>
-					<Col span="5">
+					<Col span="4">
 
 					</Col>
 				</Row>
@@ -66,9 +66,7 @@
 				requestHelper.GetUserInfo().then((data) => {
 					_this.userInfo = data;
 
-					if (success) {
-						success();
-					}
+					success&&success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -108,9 +106,7 @@
 				requestHelper.GetCustomerInfo().then((data) => {
 					_this.companyInfo = data;
 
-					if (success) {
-						success();
-					}
+					success&&success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -122,9 +118,7 @@
 				requestHelper.GetCompanyDevelopmentInfo().then((data) => {
 					_this.developmentInfo = data;
 
-					if (success) {
-						success();
-					}
+					success&&success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -135,7 +129,11 @@
 				_this.getUserInfo(() => {
 					_this.getCompanyInfo(() => {
 						if (_this.getCompanyType() == "专业版") {
-							_this.getDevelopmentInfo();
+							if (_this.getUserRole() == "普通用户") {
+								_this.$bus.emit("showError", "doco功能只允许管理员使用！");
+							} else {
+								_this.getDevelopmentInfo();
+							}
 						} else {
 							_this.$bus.emit("showError", "doco功能只支持氚云企业版！");
 						}
@@ -189,8 +187,17 @@
 
 <style scoped>
 	#app {
-		/* overflow: hidden; */
+		min-height: 600px;
+	}
 
+	#app,
+	.main,
+	.header {
+		min-width: 1200px;
+	}
+
+	.content {
+		min-width: 1182px;
 	}
 
 	.unselect {

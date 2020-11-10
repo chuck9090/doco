@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import commonObj from "./common.js";
 
 const requestHelper = {
 	Invoke(engineCode, engineSecret, postData) {
@@ -94,6 +95,35 @@ const requestHelper = {
 			"ActionName": "CheckSQL",
 			"Sql": sql,
 			"Columns": "[]"
+		});
+	},
+	LoadSingleData(schemaCode, bizObjectId) {
+		return new Promise((resolve, reject) => {
+			this.OnAction("https://www.h3yun.com/Form/OnAction", {
+				"ActionName": "Load",
+				"SchemaCode": schemaCode,
+				"BizObjectId": bizObjectId,
+				"SideModal": true,
+				"WorkItemID": "",
+				"IsExternalForm": false,
+				"IsExternalShare": false,
+				"TimeStamp": Math.round(new Date()),
+				"IsNewForm": true,
+				"ddIngPid": "",
+				"ddIngTid": ""
+			}).then((data) => {
+				if (data.ResponseContext && typeof data.ResponseContext === "string") {
+					let resData = commonObj.jsonParse(data.ResponseContext);
+					if (resData && resData.ReturnData) {
+						resolve(resData.ReturnData);
+						return;
+					}
+				}
+
+				reject("氚云Load接口响应数据异常！");
+			}).catch((error) => {
+				reject(error);
+			});
 		});
 	}
 };

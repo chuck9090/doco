@@ -1,4 +1,4 @@
-import commonObj from '../utils/common.js';
+import commonObj from "../utils/common.js";
 
 (function() {
 	//氚云列表页，数据标题字段 鼠标右键查看完整数据
