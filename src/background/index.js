@@ -1,7 +1,7 @@
 //加入 氚云列表页，数据标题字段 鼠标右键查看完整数据 功能
 require("../singleDataQuery/addSingleDataQueryMenus.js");
 
-//测试
+//sql页面
 // let testPageUrl = chrome.extension.getURL(
 // 	"sqlExec.html"
 // );
@@ -10,8 +10,9 @@ require("../singleDataQuery/addSingleDataQueryMenus.js");
 // 	selected: true
 // });
 
+//表单数据查看页面
 let testPageUrl = chrome.extension.getURL(
-	"singleDataQuery.html?SchemaCode=863a3dbcc9c5471597acf6e7817108ea&BizObjectId=fabb871c-8973-438d-8d67-08159da27f86"
+	"singleDataQuery.html?SchemaCode=D00021TestFieldType&BizObjectId=60855e91-ee72-4c34-ad11-eb2895463897"
 );
 chrome.tabs.create({
 	url: testPageUrl,

@@ -19,15 +19,19 @@ const common = {
 		return url.substring(0, url.lastIndexOf('&'));
 	},
 	jsonParse(json) {
-		if (json && typeof json === "string") {
-			json = json.replace(/\\\\"/g, '\\"');
-			return JSON.parse(json);
+		if (json) {
+			if (typeof json === "string") {
+				json = json.replace(/\\\\"/g, '\\"');
+				return JSON.parse(json);
+			} else if(typeof json === "object") {
+				return json;
+			}
 		}
 		return null;
 	},
 	toBeautifyJson(obj) {
 		if (obj && typeof obj === "string") {
-			let pObj = this.jsonParse(obj);
+			let pObj = jsonParse(obj);
 			if (pObj) {
 				obj = pObj;
 			}

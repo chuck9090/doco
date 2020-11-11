@@ -2,10 +2,9 @@
 	<Master>
 		<Tabs class="tabs" value="json" type="card">
 			<TabPane class="pane pane-json" label="JSON" name="json">
-				<JsonEditor :jsonData="jsonData"></JsonEditor>
+				<JsonEditor :jsonStr="jsonStr"></JsonEditor>
 			</TabPane>
 			<TabPane label="表单" name="form"><Button type="primary">Primary</Button></TabPane>
-			<TabPane label="表格" name="table">标签三的内容</TabPane>
 		</Tabs>
 	</Master>
 </template>
@@ -13,6 +12,7 @@
 <script>
 	import commonObj from "../../utils/common.js";
 	import requestHelper from "../../utils/requestHelper.js";
+	import schemaDataToSimple from "../../utils/h3yunDataParse/schemaDataToSimple.js";
 
 	import Master from "../../components/Master.vue";
 	import JsonEditor from "../../components/JsonEditor.vue";
@@ -21,7 +21,7 @@
 		data() {
 			return {
 				bizInfo: null,
-				jsonData: ""
+				jsonStr: ""
 			};
 		},
 		methods: {
@@ -50,7 +50,8 @@
 
 				if (_this.bizInfo) {
 					requestHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
-						_this.jsonData = commonObj.toBeautifyJson(data);
+						let jsonData = schemaDataToSimple.toSimple(data);
+						_this.jsonStr = commonObj.toBeautifyJson(jsonData);
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});
@@ -67,7 +68,9 @@
 
 			_this.getParamByUrl();
 
-			_this.loadData();
+			_this.$bus.emit("getMasterData", (masterData) => {
+				_this.loadData();
+			});
 		},
 		components: {
 			Master,

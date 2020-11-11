@@ -1,5 +1,5 @@
 <template>
-	<editor class="editor" v-model="jsonData" @init="editorInit" :options="editorOptions" lang="json" theme="iplastic"
+	<editor class="editor" ref="editor" v-model="jsonStr" @init="editorInit" :options="editorOptions" lang="json" theme="iplastic"
 	 width="100%" height="100%"></editor>
 </template>
 
@@ -22,7 +22,7 @@
 			};
 		},
 		props: {
-			jsonData: {
+			jsonStr: {
 				type: String,
 				required: true
 			}
@@ -38,6 +38,9 @@
 		},
 		components: {
 			editor: require("vue2-ace-editor")
+		},
+		mounted() {
+			debugger
 		}
 	}
 </script>
