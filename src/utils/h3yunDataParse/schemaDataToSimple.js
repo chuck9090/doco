@@ -158,8 +158,7 @@ const schemaDataToSimple = {
 	//地址
 	getValue_56(val) {
 		return val;
-	},
-
+	}
 };
 
 export default schemaDataToSimple;

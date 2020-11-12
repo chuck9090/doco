@@ -22,9 +22,6 @@
 						</Row>
 					</template>
 					</Col>
-					<Col span="4">
-
-					</Col>
 				</Row>
 			</Header>
 			<Content class="content">

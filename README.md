@@ -39,3 +39,4 @@ npm run lint
 
 [View UI文档](https://www.iviewui.com/docs/introduce)
 
+[Ace editor文档](https://segmentfault.com/a/1190000021386202?utm_source=tag-newest)

@@ -45,13 +45,14 @@
 					_this.$bus.emit("showError", "URL缺少关键参数！");
 				}
 			},
-			loadJsonData() {
+			loadJsonStr() {
 				const _this = this;
 
 				if (_this.bizInfo) {
 					requestHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
-						let jsonData = schemaDataToSimple.toSimple(data);
-						_this.jsonStr = commonObj.toBeautifyJson(jsonData);
+						// let jsonData = schemaDataToSimple.toSimple(data);
+						// _this.jsonStr = commonObj.toBeautifyJson(jsonData);
+						_this.jsonStr = commonObj.toBeautifyJson(data);
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});
@@ -60,7 +61,7 @@
 			loadData() {
 				const _this = this;
 
-				_this.loadJsonData();
+				_this.loadJsonStr();
 			}
 		},
 		mounted() {
@@ -96,4 +97,5 @@
 		box-shadow: 0 2px 7px rgba(0, 0, 0, .15);
 		border: rgba(0, 0, 0, .15);
 	}
+
 </style>
