@@ -12,7 +12,7 @@ require("../singleDataQuery/addSingleDataQueryMenus.js");
 
 //表单数据查看页面
 let testPageUrl = chrome.extension.getURL(
-	"singleDataQuery.html?SchemaCode=D1023045452ff8dd2b5462a93b4a6711760d354&BizObjectId=bba48fe2-9f48-43fb-b20b-51346e1bb1a9"
+	"singleDataQuery.html?SchemaCode=D00021TestFieldType&BizObjectId=60855e91-ee72-4c34-ad11-eb2895463897"
 );
 chrome.tabs.create({
 	url: testPageUrl,

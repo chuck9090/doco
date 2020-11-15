@@ -1,10 +1,12 @@
 <template>
 	<Master>
-		<Tabs class="tabs" value="json" type="card">
+		<Tabs class="tabs" value="schema" type="card">
 			<TabPane class="pane pane-json" label="JSON" name="json">
 				<JsonEditor :jsonStr="jsonStr"></JsonEditor>
 			</TabPane>
-			<TabPane label="表单" name="form"><Button type="primary">Primary</Button></TabPane>
+			<TabPane label="表单" name="schema">
+				<Schema :schemaData="schemaData"></Schema>
+			</TabPane>
 		</Tabs>
 	</Master>
 </template>
@@ -13,15 +15,18 @@
 	import commonObj from "../../utils/common.js";
 	import requestHelper from "../../utils/requestHelper.js";
 	import schemaDataToSimple from "../../utils/h3yunDataParse/schemaDataToSimple.js";
+	import schemaDataToDetails from "../../utils/h3yunDataParse/schemaDataToDetails.js";
 
 	import Master from "../../components/Master.vue";
 	import JsonEditor from "../../components/JsonEditor.vue";
+	import Schema from "../../components/Schema.vue";
 
 	export default {
 		data() {
 			return {
 				bizInfo: null,
-				jsonStr: ""
+				jsonStr: "",
+				schemaData: []
 			};
 		},
 		methods: {
@@ -53,6 +58,8 @@
 						// let jsonData = schemaDataToSimple.toSimple(data);
 						// _this.jsonStr = commonObj.toBeautifyJson(jsonData);
 						_this.jsonStr = commonObj.toBeautifyJson(data);
+
+						_this.schemaData = schemaDataToDetails.toDetails(data);
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});
@@ -75,7 +82,8 @@
 		},
 		components: {
 			Master,
-			JsonEditor
+			JsonEditor,
+			Schema
 		}
 	};
 </script>
@@ -97,5 +105,4 @@
 		box-shadow: 0 2px 7px rgba(0, 0, 0, .15);
 		border: rgba(0, 0, 0, .15);
 	}
-
 </style>

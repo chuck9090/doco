@@ -8,8 +8,13 @@ const schemaDataToSimple = {
 				if (!this.filterKey(p)) {
 					continue;
 				}
-				let val = this.getValue(obj[p]);
-				newObj[p] = val;
+
+				try {
+					let val = this.getValue(obj[p]);
+					newObj[p] = val;
+				} catch (e) {
+					throw new Error("[" + p + "]字段值解析失败：" + e);
+				}
 			}
 		}
 		return newObj;
@@ -47,10 +52,12 @@ const schemaDataToSimple = {
 				let fun = this["getValue_" + infoType];
 				if (fun && typeof fun === "function") {
 					return fun.call(this, info.Value);
+				} else {
+					return info.Value;
 				}
 			}
 		}
-		return null;
+		throw new Error("值格式不符！");
 	},
 	//布尔型
 	getValue_1(val) {
@@ -83,6 +90,8 @@ const schemaDataToSimple = {
 			for (let i = 0; i < val.length; i++) {
 				if (val[i] && typeof val[i] === "object" && typeof val[i]["Code"] === "string") {
 					imgs.push(val[i]["Code"]);
+				} else {
+					throw new Error("[图片型]字段解析失败！");
 				}
 			}
 		}
@@ -95,6 +104,8 @@ const schemaDataToSimple = {
 			for (let i = 0; i < val.length; i++) {
 				if (val[i] && typeof val[i] === "object" && typeof val[i]["Code"] === "string") {
 					files.push(val[i]["Code"]);
+				} else {
+					throw new Error("[附件型]字段解析失败！");
 				}
 			}
 		}
@@ -105,6 +116,8 @@ const schemaDataToSimple = {
 		if (val && val.length) {
 			if (val[0] && typeof val[0] === "object" && typeof val[0]["ObjectId"] === "string") {
 				return val[0]["ObjectId"];
+			} else {
+				throw new Error("[人员单选、部门单选型]字段解析失败！");
 			}
 		}
 		return null;
@@ -116,6 +129,8 @@ const schemaDataToSimple = {
 			for (let i = 0; i < val.length; i++) {
 				if (val[i] && typeof val[i] === "object" && typeof val[i]["ObjectId"] === "string") {
 					users.push(val[i]["ObjectId"]);
+				} else {
+					throw new Error("[人员多选、部门多选型]字段解析失败！");
 				}
 			}
 		}
@@ -138,6 +153,8 @@ const schemaDataToSimple = {
 						newItem[p] = itemVal;
 					}
 					cdatas.push(newItem);
+				} else {
+					throw new Error("[子表]字段解析失败！");
 				}
 			}
 		}

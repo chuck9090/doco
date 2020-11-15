@@ -10,10 +10,12 @@ const schemaDataToDetails = {
 				}
 				let val = this.getValue(obj[p]);
 				if (val && typeof val === "object") {
+					val["code"] = p;
 					data.push(val);
 				}
 			}
 		}
+
 		return data;
 	},
 	//系统其它补充字段
@@ -52,7 +54,7 @@ const schemaDataToDetails = {
 				};
 			}
 		}
-		return null;
+		throw new Error("值格式不符！");
 	}
 };
 
