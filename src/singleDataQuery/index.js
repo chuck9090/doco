@@ -16,6 +16,9 @@ Vue.component("TabPane", viewui.TabPane);
 Vue.component("Dropdown", viewui.Dropdown);
 Vue.component("DropdownMenu", viewui.DropdownMenu);
 Vue.component("Alert", viewui.Alert);
+Vue.component("Tag", viewui.Tag);
+Vue.component("vSwitch", viewui.Switch);
+Vue.component("Tooltip", viewui.Tooltip);
 Vue.prototype.$Notice = viewui.Notice;
 Vue.prototype.$Message = viewui.Message;
 
