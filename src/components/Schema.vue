@@ -1,15 +1,20 @@
 <template>
 	<div class="schema" v-if="schemaData&&schemaData.length">
-		<Row>
-			<Col span="12" v-for="(item, index) in schemaData" :key="index">
-			<div class="field" v-if="item.type===5 ||item.type===7 ||item.type===9 ||item.type===13 || item.type===14">
-				<div class="title">
-					<span v-text="item.code"></span>
-					<span class="unselect title-space">|</span>
-					<span v-text="item.name"></span>
-				</div>
-				<div v-text="item.value"></div>
+		<Row type="flex" justify="start">
+			<Col class="field" span="12" v-for="(item, index) in schemaData" :key="index">
+			<div class="title">
+				<span class="title-name" v-text="item.name"></span>（<span class="title-code" v-text="item.code"></span>）
 			</div>
+
+			<div v-if="item.type===5 || item.type===7 || item.type===9 || item.type===13 || item.type===14 || item.type===50 || item.type===55 || item.type===56"
+			 v-text="item.value"></div>
+
+			<div v-if="item.type===1" v-text="item.value"></div>
+
+			<div v-if="item.type===26" v-text="getValue_26(item.value)"></div>
+
+			<div v-if="item.type===51" v-text=""></div>
+
 			</Col>
 		</Row>
 	</div>
@@ -21,6 +26,20 @@
 			schemaData: {
 				type: Array,
 				required: true
+			}
+		},
+		methods: {
+			getValue_26(val) {
+				if (val&&val.length) {
+					return val[0].Name + "（" + val[0].ObjectId + "）";
+				} else {
+					return "";
+				}
+			},
+			getValue_51(val) {
+				if (val && val.length) {
+					return "";
+				}
 			}
 		}
 	}
@@ -38,17 +57,21 @@
 		width: 100%;
 		height: 100%;
 		overflow: auto;
+		font-size: 14px;
 	}
 
 	.field {
-		padding: 10px 5px;
+		padding: 15px 10px;
 	}
 
 	.title {
 		font-weight: bold;
 	}
 
-	.title-space {
-		margin: 0 5px;
+	.title-name {}
+
+	.title-code {
+		font-weight: 400;
+		font-size: 13px;
 	}
 </style>

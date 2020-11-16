@@ -60,6 +60,7 @@
 						_this.jsonStr = commonObj.toBeautifyJson(data);
 
 						_this.schemaData = schemaDataToDetails.toDetails(data);
+						console.log(_this.schemaData)
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});
