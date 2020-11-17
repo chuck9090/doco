@@ -1,11 +1,14 @@
 <template>
 	<Master>
 		<Tabs class="tabs" value="schema" type="card">
-			<TabPane class="pane pane-json" label="JSON" name="json">
+			<TabPane class="pane" label="JSON" name="json">
 				<JsonEditor :jsonStr="jsonStr"></JsonEditor>
 			</TabPane>
-			<TabPane label="表单" name="schema">
+			<TabPane class="pane" label="表单" name="schema">
 				<Schema :schemaData="schemaData"></Schema>
+			</TabPane>
+			<TabPane class="pane" label="源数据" name="source">
+				<JsonEditor :jsonStr="sourceJson"></JsonEditor>
 			</TabPane>
 		</Tabs>
 	</Master>
@@ -25,6 +28,7 @@
 		data() {
 			return {
 				bizInfo: null,
+				sourceJson: "",
 				jsonStr: "",
 				schemaData: []
 			};
@@ -55,12 +59,12 @@
 
 				if (_this.bizInfo) {
 					requestHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
-						// let jsonData = schemaDataToSimple.toSimple(data);
-						// _this.jsonStr = commonObj.toBeautifyJson(jsonData);
-						_this.jsonStr = commonObj.toBeautifyJson(data);
+						_this.sourceJson = commonObj.toBeautifyJson(data);
+
+						let jsonData = schemaDataToSimple.toSimple(data);
+						_this.jsonStr = commonObj.toBeautifyJson(jsonData);
 
 						_this.schemaData = schemaDataToDetails.toDetails(data);
-						console.log(_this.schemaData)
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});

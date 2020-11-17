@@ -21,7 +21,9 @@
 					//只读
 					readOnly: true,
 					//批量选中
-					enableMultiselect: false
+					enableMultiselect: false,
+					tabSize: 2,
+					fontSize: 16
 				}
 			};
 		},
@@ -37,12 +39,12 @@
 			}
 		},
 		methods: {
-			editorInit: function() {
+			editorInit() {
 				require("brace/mode/json");
 				require("brace/theme/iplastic");
+				require("brace/snippets/json");
 				require("brace/ext/emmet");
 				require("brace/ext/language_tools");
-				require("brace/snippets/json");
 				require("brace/ext/searchbox");
 			}
 		},
@@ -51,8 +53,6 @@
 		},
 		mounted() {
 			var _this = this;
-
-			window.ed = _this.$refs.editor.editor;
 		}
 	}
 </script>
@@ -61,7 +61,6 @@
 	.editor {
 		font-size: 14px;
 	}
-
 
 	/deep/ .ace_search {
 		top: 30px;
