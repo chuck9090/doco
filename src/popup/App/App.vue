@@ -19,6 +19,10 @@
 					title: "sql执行",
 					link: "/sqlExec.html",
 					target: "_blank"
+				}, {
+					title: "氚云移动端",
+					link: "https://www.h3yun.com/m/",
+					target: "_blank"
 				}]
 			};
 		}
