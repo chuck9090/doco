@@ -11,11 +11,10 @@
 </template>
 
 <script>
-
 	export default {
 		data() {
 			return {
-				content: "",
+				content: "select * from h_user",
 				editorOptions: {
 					//自动完成
 					enableBasicAutocompletion: true,
@@ -33,7 +32,7 @@
 				},
 				editorSetting: {
 					width: "100%",
-					height: 200
+					height: 400
 				}
 			};
 		},
@@ -51,7 +50,7 @@
 
 				if (_this.content) {
 					try {
-						
+
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
@@ -61,7 +60,9 @@
 
 			},
 			exec() {
+				const _this = this;
 
+				_this.$bus.emit("sqlExec", _this.content);
 			}
 		},
 		components: {
@@ -78,7 +79,6 @@
 <style scoped>
 	.main {
 		width: 100%;
-		height: 100%;
 	}
 
 	.operation-panel {

@@ -63,7 +63,7 @@
 				requestHelper.GetUserInfo().then((data) => {
 					_this.userInfo = data;
 
-					success&&success();
+					success && success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -103,7 +103,7 @@
 				requestHelper.GetCustomerInfo().then((data) => {
 					_this.companyInfo = data;
 
-					success&&success();
+					success && success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -115,7 +115,7 @@
 				requestHelper.GetCompanyDevelopmentInfo().then((data) => {
 					_this.developmentInfo = data;
 
-					success&&success();
+					success && success();
 				}).catch((error) => {
 					_this.$bus.emit("showError", error);
 				});
@@ -206,6 +206,8 @@
 
 	.header {
 		background: #fff;
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+		transition: background-color 0.3s ease-in-out;
 		position: fixed;
 		z-index: 2;
 		width: 100%;

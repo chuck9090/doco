@@ -33,11 +33,11 @@
 			<div class="value" v-else-if="item.type===26" v-text="getValue_26(item.value)"></div>
 
 			<div class="value" v-else-if="item.type===50">
-				<Tag type="dot" color="primary">{{item.value}}</Tag>
+				<Tag type="dot" color="success">{{item.value}}</Tag>
 			</div>
 
 			<div class="value" v-else-if="item.type===51">
-				<Tag type="dot" color="primary" v-if="item.value && item.value.length" v-for="(item_51, index_51) in item.value"
+				<Tag type="dot" color="success" v-if="item.value && item.value.length" v-for="(item_51, index_51) in item.value"
 				 :key="index_51">{{item_51}}</Tag>
 			</div>
 
