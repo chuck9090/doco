@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import requestHelper from "../utils/requestHelper.js";
+	import apiHelper from "../utils/apiHelper.js";
 
 	export default {
 		data() {
@@ -60,7 +60,7 @@
 			getUserInfo(success) {
 				const _this = this;
 
-				requestHelper.GetUserInfo().then((data) => {
+				apiHelper.GetUserInfo().then((data) => {
 					_this.userInfo = data;
 
 					success && success();
@@ -100,7 +100,7 @@
 			getCompanyInfo(success) {
 				const _this = this;
 
-				requestHelper.GetCustomerInfo().then((data) => {
+				apiHelper.GetCustomerInfo().then((data) => {
 					_this.companyInfo = data;
 
 					success && success();
@@ -112,7 +112,7 @@
 			getDevelopmentInfo(success) {
 				const _this = this;
 
-				requestHelper.GetCompanyDevelopmentInfo().then((data) => {
+				apiHelper.GetCompanyDevelopmentInfo().then((data) => {
 					_this.developmentInfo = data;
 
 					success && success();

@@ -1,8 +1,11 @@
 <template>
 	<Master>
-		<SqlEditor></SqlEditor>
-		<Table class="table" v-if="tableData&&tableData.length" v-for="(item,index) in tableData" :key="index" :border="true" :stripe="true"
-		 :showHeader="true" :maxHeight="400" size="small" noDataText="无数据" :data="item.rows" :columns="item.cols"></Table>
+		<SqlEditor style="position:relative;z-index:1;" :height="topHeight"></SqlEditor>
+
+		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-moving="calcPanelHeight">
+			<Table slot="bottom" class="table" v-if="tableData" :border="true" :stripe="true" :showHeader="true" :maxHeight="bottomHeight"
+			 size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
+		</Split>
 	</Master>
 </template>
 
@@ -10,23 +13,36 @@
 	import Master from "../../components/Master.vue";
 	import SqlEditor from "../../components/SqlEditor.vue";
 
-	import requestHelper from "../../utils/requestHelper.js";
+	import apiHelper from "../../utils/apiHelper.js";
 
 	export default {
 		data() {
 			return {
+				splitRate: 1,
+				topHeight: 0,
+				bottomHeight: 0,
 				tableData: null
 			};
 		},
 		methods: {
+			calcPanelHeight() {
+				const _this = this;
+
+				let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
+				_this.topHeight = _this.splitRate * panelHeight;
+				_this.bottomHeight = panelHeight - _this.topHeight;
+
+				console.log(_this.bottomHeight)
+			},
 			sqlExec(sql) {
 				const _this = this;
 
 				_this.initTableData();
 
 				if (sql) {
-					requestHelper.CheckSQL(sql).then((data) => {
+					apiHelper.CheckSQL(sql).then((data) => {
 						_this.setTableData(data);
+						_this.calcPanelHeight();
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
 					});
@@ -35,7 +51,7 @@
 			initTableData() {
 				const _this = this;
 
-				_this.tableData = [];
+				_this.tableData = null;
 			},
 			setTableData(data) {
 				const _this = this;
@@ -68,14 +84,19 @@
 							throw new Error("氚云响应数据校验不通过！");
 						});
 						if (columns.length) {
+							columns.unshift({
+								type: "index",
+								width: 60,
+								align: "center",
+								fixed: "left"
+							});
 							tData["cols"] = columns;
 						} else {
 							throw new Error("氚云响应数据校验不通过！");
 						}
 
 						_this.initTableData();
-						_this.tableData.push(tData);
-						debugger
+						_this.tableData = tData;
 					} else {
 						throw new Error("氚云响应数据校验不通过！");
 					}
@@ -88,6 +109,8 @@
 			const _this = this;
 
 			_this.$bus.on("sqlExec", _this.sqlExec);
+
+			_this.calcPanelHeight();
 		},
 		components: {
 			Master,
@@ -100,11 +123,11 @@
 	.split {
 		box-shadow: 0 2px 7px rgba(0, 0, 0, .15);
 		border: rgba(0, 0, 0, .15);
+		position: absolute;
+		top: 0;
 	}
 
-	.split-top {
-		position: relative;
-		width: 100%;
-		height: 100%;
+	/deep/ .ivu-table-small {
+		font-size: 14px !important;
 	}
 </style>

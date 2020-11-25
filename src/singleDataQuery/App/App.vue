@@ -16,7 +16,7 @@
 
 <script>
 	import commonObj from "../../utils/common.js";
-	import requestHelper from "../../utils/requestHelper.js";
+	import apiHelper from "../../utils/apiHelper.js";
 	import schemaDataToSimple from "../../utils/h3yunDataParse/schemaDataToSimple.js";
 	import schemaDataToDetails from "../../utils/h3yunDataParse/schemaDataToDetails.js";
 
@@ -58,7 +58,7 @@
 				const _this = this;
 
 				if (_this.bizInfo) {
-					requestHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
+					apiHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
 						_this.sourceJson = commonObj.toBeautifyJson(data);
 
 						let jsonData = schemaDataToSimple.toSimple(data);

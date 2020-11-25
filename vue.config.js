@@ -57,8 +57,8 @@ if (process.env.NODE_ENV !== "production") {
 if (process.env.NODE_ENV === "production") {
 	plugins.push(
 		new ZipPlugin({
-			path: path.resolve(proFileName),
-			filename: proFileName + ".zip",
+			path: path.resolve("zip/"),
+			filename: `doco_${getPackageVersion()}.zip`,
 		})
 	)
 }

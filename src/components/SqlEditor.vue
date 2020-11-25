@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="sqlEditor">
 		<Row class="operation-panel" type="flex" justify="end" :gutter="12">
 			<Col><Button icon="md-color-wand" type="success" @click="beautify">美化</Button></Col>
 			<Col><Button icon="md-barcode" type="info" @click="compression">压缩</Button></Col>
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+	import beaTool from "../utils/beaTool.js";
+
 	export default {
 		data() {
 			return {
@@ -32,9 +34,19 @@
 				},
 				editorSetting: {
 					width: "100%",
-					height: 400
+					height: "100%"
 				}
 			};
+		},
+		props: {
+			height: {
+				type: Number
+			}
+		},
+		watch: {
+			height(val) {
+				this.editorSetting.height = val - 52;
+			}
 		},
 		methods: {
 			editorInit() {
@@ -50,14 +62,22 @@
 
 				if (_this.content) {
 					try {
-
+						_this.content = beaTool.sql(_this.content);
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
 				}
 			},
 			compression() {
+				var _this = this;
 
+				if (_this.content) {
+					try {
+						_this.content = beaTool.sqlmin(beaTool.sql(_this.content));
+					} catch (e) {
+						_this.$bus.emit("showError", e);
+					}
+				}
 			},
 			exec() {
 				const _this = this;
@@ -77,7 +97,7 @@
 </script>
 
 <style scoped>
-	.main {
+	.sqlEditor {
 		width: 100%;
 	}
 
@@ -85,7 +105,9 @@
 		padding: 10px;
 	}
 
-	.editor {}
+	.editor {
+		font-size: 16px;
+	}
 
 	/deep/ .ace_search {
 		top: 30px;

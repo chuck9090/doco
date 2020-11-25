@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 import commonObj from "./common.js";
 
-const requestHelper = {
+const apiHelper = {
 	Invoke(engineCode, engineSecret, postData) {
 		const url = "https://www.h3yun.com/OpenApi/Invoke";
 
@@ -128,4 +128,4 @@ const requestHelper = {
 	}
 };
 
-export default requestHelper;
+export default apiHelper;
