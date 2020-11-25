@@ -16,7 +16,7 @@
 	export default {
 		data() {
 			return {
-				content: "select * from h_user",
+				content: "select * from (select * from h_user limit 0,50 ) a",
 				editorOptions: {
 					//自动完成
 					enableBasicAutocompletion: true,

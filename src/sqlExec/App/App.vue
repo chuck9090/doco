@@ -18,9 +18,10 @@
 	export default {
 		data() {
 			return {
-				splitRate: 1,
+				splitRate: 0.8,
 				topHeight: 0,
 				bottomHeight: 0,
+				ct: null,
 				tableData: null
 			};
 		},
@@ -28,11 +29,11 @@
 			calcPanelHeight() {
 				const _this = this;
 
-				let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
-				_this.topHeight = _this.splitRate * panelHeight;
-				_this.bottomHeight = panelHeight - _this.topHeight;
-
-				console.log(_this.bottomHeight)
+				_this.$nextTick(() => {
+					let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
+					_this.topHeight = _this.splitRate * panelHeight;
+					_this.bottomHeight = panelHeight - _this.topHeight;
+				});
 			},
 			sqlExec(sql) {
 				const _this = this;
