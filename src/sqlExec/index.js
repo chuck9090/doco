@@ -21,6 +21,8 @@ Vue.component("Card", viewui.Card);
 Vue.component("Table", viewui.Table);
 Vue.prototype.$Notice = viewui.Notice;
 Vue.prototype.$Message = viewui.Message;
+Vue.component("Spin", viewui.Spin);
+Vue.prototype.$Spin = viewui.Spin;
 
 import AppComponent from "./App/App.vue";
 Vue.component("app-component", AppComponent);

@@ -16,7 +16,7 @@
 	export default {
 		data() {
 			return {
-				content: "select * from (select * from h_user limit 0,50 ) a",
+				content: "select * from (select * from h_user limit 0,1 ) a",
 				editorOptions: {
 					//自动完成
 					enableBasicAutocompletion: true,
@@ -45,7 +45,7 @@
 		},
 		watch: {
 			height(val) {
-				this.editorSetting.height = val - 52;
+				this.editorSetting.height = (val - 52) + "px";
 			}
 		},
 		methods: {

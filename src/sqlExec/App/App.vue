@@ -2,10 +2,13 @@
 	<Master>
 		<SqlEditor style="position:relative;z-index:1;" :height="topHeight"></SqlEditor>
 
-		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-moving="calcPanelHeight">
-			<Table slot="bottom" class="table" v-if="tableData" :border="true" :stripe="true" :showHeader="true" :maxHeight="bottomHeight"
-			 size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
+		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-move-start="onDrag=true"
+		 @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
+			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true" :showHeader="true"
+			 :maxHeight="bottomHeight" size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
+		
+		<Spin size="large" fix ></Spin>
 	</Master>
 </template>
 
@@ -21,19 +24,25 @@
 				splitRate: 0.8,
 				topHeight: 0,
 				bottomHeight: 0,
-				ct: null,
+				onDrag: false,
 				tableData: null
 			};
 		},
 		methods: {
+			initSplitRate() {
+				const _this = this;
+
+				if (_this.splitRate > 0.8) {
+					_this.splitRate = 0.8;
+				}
+				_this.onDrag = false;
+			},
 			calcPanelHeight() {
 				const _this = this;
 
-				_this.$nextTick(() => {
-					let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
-					_this.topHeight = _this.splitRate * panelHeight;
-					_this.bottomHeight = panelHeight - _this.topHeight;
-				});
+				let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
+				_this.topHeight = _this.splitRate * panelHeight;
+				_this.bottomHeight = panelHeight - _this.topHeight;
 			},
 			sqlExec(sql) {
 				const _this = this;
@@ -43,6 +52,7 @@
 				if (sql) {
 					apiHelper.CheckSQL(sql).then((data) => {
 						_this.setTableData(data);
+						_this.initSplitRate();
 						_this.calcPanelHeight();
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
