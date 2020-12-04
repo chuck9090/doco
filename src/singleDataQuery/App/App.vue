@@ -79,9 +79,9 @@
 		mounted() {
 			const _this = this;
 
-			_this.getParamByUrl();
-
 			_this.$bus.emit("getMasterData", (masterData) => {
+				_this.getParamByUrl();
+				
 				_this.loadData();
 			});
 		},

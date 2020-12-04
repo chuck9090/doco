@@ -24,7 +24,7 @@
 					</Col>
 				</Row>
 			</Header>
-			<Content class="content">
+			<Content v-if="canUse" class="content">
 				<slot></slot>
 			</Content>
 		</Layout>
@@ -39,7 +39,8 @@
 			return {
 				userInfo: null,
 				companyInfo: null,
-				developmentInfo: null
+				developmentInfo: null,
+				canUse: false
 			};
 		},
 		computed: {
@@ -123,6 +124,8 @@
 			initMasterData() {
 				const _this = this;
 
+				_this.canUse = false;
+
 				_this.getUserInfo(() => {
 					_this.getCompanyInfo(() => {
 						if (_this.getCompanyType() == "专业版") {
@@ -130,6 +133,8 @@
 								_this.$bus.emit("showError", "doco功能只允许管理员使用！");
 							} else {
 								_this.getDevelopmentInfo();
+
+								_this.canUse = true;
 							}
 						} else {
 							_this.$bus.emit("showError", "doco功能只支持氚云企业版！");

@@ -1,6 +1,9 @@
 <template>
 	<div class="sqlEditor">
 		<Row class="operation-panel" type="flex" justify="end" :gutter="12">
+			<Col><Button type="success" >?</Button></Col>
+			<Col><Button type="success" >复制</Button></Col>
+			<Col><Button type="success" >保存</Button></Col>
 			<Col><Button icon="md-color-wand" type="success" @click="beautify">美化</Button></Col>
 			<Col><Button icon="md-barcode" type="info" @click="compression">压缩</Button></Col>
 			<Col><Button icon="md-search" type="primary" @click="exec">校验</Button></Col>
@@ -16,7 +19,7 @@
 	export default {
 		data() {
 			return {
-				content: "select * from (select * from h_user limit 0,1 ) a",
+				content: "select objectid,name from h_user",
 				editorOptions: {
 					//自动完成
 					enableBasicAutocompletion: true,
@@ -35,7 +38,8 @@
 				editorSetting: {
 					width: "100%",
 					height: "100%"
-				}
+				},
+				editor: null
 			};
 		},
 		props: {
@@ -57,12 +61,23 @@
 				require("brace/ext/language_tools");
 				require("brace/ext/searchbox");
 			},
+			setValue(val) {
+				const _this = this;
+
+				_this.$nextTick(() => {
+					if (_this.editor) {
+						_this.editor.setValue(val, 1);
+					} else {
+						_this.$bus.emit("showError", "编辑器未初始化完成！");
+					}
+				});
+			},
 			beautify() {
 				var _this = this;
 
 				if (_this.content) {
 					try {
-						_this.content = beaTool.sql(_this.content);
+						_this.setValue(beaTool.sql(_this.content));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
@@ -73,7 +88,7 @@
 
 				if (_this.content) {
 					try {
-						_this.content = beaTool.sqlmin(beaTool.sql(_this.content));
+						_this.setValue(beaTool.sqlmin(beaTool.sql(_this.content)));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
@@ -91,7 +106,8 @@
 		mounted() {
 			var _this = this;
 
-			window.ed = _this.$refs.editor.editor;
+			_this.editor = _this.$refs.editor.editor;
+			window.ed = _this.editor;
 		}
 	}
 </script>

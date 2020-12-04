@@ -5,10 +5,10 @@
 		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-move-start="onDrag=true"
 		 @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
 			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true" :showHeader="true"
-			 :maxHeight="bottomHeight" size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
+			 maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
-		
-		<Spin size="large" fix ></Spin>
+
+		<Spin v-if="false" size="large" fix></Spin>
 	</Master>
 </template>
 
@@ -40,9 +40,12 @@
 			calcPanelHeight() {
 				const _this = this;
 
-				let panelHeight = _this.$refs["splitPanel"].$el.offsetHeight;
-				_this.topHeight = _this.splitRate * panelHeight;
-				_this.bottomHeight = panelHeight - _this.topHeight;
+				const splitPanel = _this.$refs["splitPanel"];
+				if (splitPanel) {
+					let panelHeight = splitPanel.$el.offsetHeight;
+					_this.topHeight = _this.splitRate * panelHeight;
+					_this.bottomHeight = panelHeight - _this.topHeight;
+				}
 			},
 			sqlExec(sql) {
 				const _this = this;
@@ -89,7 +92,7 @@
 									// "ellipsis": true,
 									"tooltip": true,
 									"resizable": true,
-									"width": 120
+									"minWidth": 120
 								};
 							}
 							throw new Error("氚云响应数据校验不通过！");
@@ -119,9 +122,11 @@
 		mounted() {
 			const _this = this;
 
-			_this.$bus.on("sqlExec", _this.sqlExec);
+			_this.$bus.emit("getMasterData", () => {
+				_this.$bus.on("sqlExec", _this.sqlExec);
 
-			_this.calcPanelHeight();
+				_this.calcPanelHeight();
+			});
 		},
 		components: {
 			Master,
