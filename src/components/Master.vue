@@ -47,6 +47,16 @@
 
 		},
 		methods: {
+			showSuccess(msg){
+				if (msg === undefined || msg === null || msg == "") {
+					msg = "NULL";
+				}
+				this.$Message.success({
+					background: true,
+					duration: 4.5,
+					content: msg
+				});
+			},
 			showError(msg) {
 				if (msg === undefined || msg === null || msg == "") {
 					msg = "NULL";
@@ -171,6 +181,7 @@
 				});
 			},
 			registerBus() {
+				this.$bus.on("showSuccess", this.showSuccess);
 				this.$bus.on("showError", this.showError);
 				this.$bus.on("getMasterData", this.getMasterData);
 				this.$bus.on("getEngineInfo", this.getEngineInfo);

@@ -5,7 +5,7 @@
 		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-move-start="onDrag=true"
 		 @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
 			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true" :showHeader="true"
-			 maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无数据" :data="tableData.rows" :columns="tableData.cols"></Table>
+			 maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无结果集" :data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
 
 		<Spin v-if="false" size="large" fix></Spin>
@@ -67,6 +67,21 @@
 
 				_this.tableData = null;
 			},
+			getPanelWidth() {
+				const _this = this;
+
+				let panelMinWidth = 1000;
+				let panelWidth = panelMinWidth;
+
+				const splitPanel = _this.$refs["splitPanel"];
+				if (splitPanel) {
+					if (splitPanel.$el.offsetWidth > panelMinWidth) {
+						panelWidth = splitPanel.$el.offsetWidth;
+					}
+				}
+
+				return panelWidth;
+			},
 			setTableData(data) {
 				const _this = this;
 
@@ -83,16 +98,24 @@
 							tData["rows"] = [];
 						}
 
+						let indexColWidth = 60;
+						let colMinWidth = 150;
+						let panelWidth = _this.getPanelWidth();
+						panelWidth = panelWidth - indexColWidth - 20;
+						let colWidth = panelWidth / data.cols.length;
+						if (colWidth < colMinWidth) {
+							colWidth = colMinWidth;
+						}
+
 						let columns = data.cols.map((item) => {
 							if (typeof item["ColumnName"] === "string" && item["ColumnName"] !== "") {
 								return {
 									"title": item["ColumnName"],
 									"key": item["ColumnName"],
 									"align": "center",
-									// "ellipsis": true,
 									"tooltip": true,
 									"resizable": true,
-									"minWidth": 120
+									"width": colWidth
 								};
 							}
 							throw new Error("氚云响应数据校验不通过！");
@@ -100,7 +123,7 @@
 						if (columns.length) {
 							columns.unshift({
 								type: "index",
-								width: 60,
+								width: indexColWidth,
 								align: "center",
 								fixed: "left"
 							});
