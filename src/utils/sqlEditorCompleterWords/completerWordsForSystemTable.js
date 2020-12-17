@@ -1,0 +1,59 @@
+const completerWordsForSystemTable = [{
+	caption: "H_Company",
+	meta: "系统表：公司",
+	value: "H_Company"
+}, {
+	caption: "H_OrganizationUnit",
+	meta: "系统表：部门",
+	value: "H_OrganizationUnit"
+}, {
+	caption: "H_User",
+	meta: "系统表：用户",
+	value: "H_User"
+}, {
+	caption: "H_OrgRoleGroup",
+	meta: "系统表：角色分组",
+	value: "H_OrgRoleGroup"
+}, {
+	caption: "H_OrgRole",
+	meta: "系统表：角色",
+	value: "H_OrgRole"
+}, {
+	caption: "H_OrgPost",
+	meta: "系统表：角色用户关系",
+	value: "H_OrgPost"
+}, {
+	caption: "H_WorkflowInstance",
+	meta: "系统表：流程实例",
+	value: "H_WorkflowInstance"
+}, {
+	caption: "H_WorkItem",
+	meta: "系统表：流程工作项",
+	value: "H_WorkItem"
+}, {
+	caption: "H_Token",
+	meta: "系统表：流程步骤",
+	value: "H_Token"
+}, {
+	caption: "H_BizObjectFile",
+	meta: "系统表：附件信息记录",
+	value: "H_BizObjectFile"
+}, {
+	caption: "H_Comment",
+	meta: "系统表：审批意见",
+	value: "H_Comment"
+}, {
+	caption: "H_PublishedBizObjectSchema",
+	meta: "系统表：发布版表单表结构信息",
+	value: "H_PublishedBizObjectSchema"
+}, {
+	caption: "H_PublishedFormSetting",
+	meta: "系统表：发布版表单配置信息",
+	value: "H_PublishedFormSetting"
+}, {
+	caption: "H_PublishedListViewSetting",
+	meta: "系统表：发布版列表配置信息",
+	value: "H_PublishedListViewSetting"
+}];
+
+export default completerWordsForSystemTable;

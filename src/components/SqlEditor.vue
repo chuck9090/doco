@@ -27,10 +27,13 @@
 	import fileSaver from '../utils/fileSaver.js';
 	import beaTool from "../utils/beaTool.js";
 
+
+	import sqlEditorCompleterWords from "@/utils/sqlEditorCompleterWords";
+
 	export default {
 		data() {
 			return {
-				operationHieght: 52,
+				operationHieght: 52, //操作面板高度
 				clipboard: null,
 				content: "select objectid,name from h_user",
 				editorOptions: {
@@ -45,6 +48,10 @@
 					wrap: "free",
 					//批量选中
 					enableMultiselect: false,
+					//固定行号区域宽度
+					fixedWidthGutter: true,
+					//启用快速完成功能
+					enableEmmet: true,
 					tabSize: 2,
 					fontSize: 16
 				},
@@ -66,69 +73,161 @@
 			}
 		},
 		methods: {
-			editorInit() {
+			editorInit(ed) { //初始化编辑器，将编辑器功能添加进来
 				require("brace/mode/sql");
 				require("brace/theme/iplastic");
 				require("brace/snippets/sql");
 				require("brace/ext/emmet");
 				require("brace/ext/language_tools");
 				require("brace/ext/searchbox");
+
+				const _this = this;
+
+				_this.editor = ed;
+				window.editor = ed; //方便console测试
 			},
-			getEditor() {
+			addCommands() { //添加快捷键
+				const _this = this;
+
+				_this.editor.commands.addCommands([{
+						name: 'save',
+						bindKey: {
+							win: 'Ctrl-S',
+							mac: 'Command-S'
+						},
+						exec() {
+							_this.saveSql();
+						}
+					},
+					{
+						name: 'beautify',
+						bindKey: {
+							win: 'Ctrl-K',
+							mac: 'Command-K'
+						},
+						exec() {
+							_this.beautify();
+						}
+					},
+					{
+						name: 'compression',
+						bindKey: {
+							win: 'Ctrl-M',
+							mac: 'Command-M'
+						},
+						exec() {
+							_this.compression();
+						}
+					}, {
+						name: 'exec',
+						bindKey: {
+							win: 'Ctrl-Enter',
+							mac: 'Command-Enter'
+						},
+						exec() {
+							_this.exec();
+						}
+					}
+				]);
+			},
+			addCompleters() { //添加代码提示选项
+				const _this = this;
+
+				let completers = [{
+					getCompletions(editor, session, pos, prefix, callback) {
+						if (prefix === "h" || prefix === "H") {
+							return callback(null, sqlEditorCompleterWords.completerWordsForSystemTable);
+						}
+
+						return callback(null, []);
+					}
+				}];
+
+				if (completers && completers.length) {
+					if (_this.editor.completers && _this.editor.completers.length) {
+						completers.forEach((e, i) => {
+							_this.editor.completers.push(e);
+						});
+					} else {
+						_this.editor.completers = completers;
+					}
+				}
+			},
+			contentChange() {
+				const _this = this;
+
+				if (_this.editor) {
+					_this.editor.execCommand("startAutocomplete");
+				}
+			},
+			getEditor() { //获取编辑器对象
 				const _this = this;
 
 				if (_this.editor) {
 					return _this.editor;
-				} else {
-					_this.$bus.emit("showError", "编辑器未初始化完成！");
 				}
+				_this.$bus.emit("showError", "编辑器未初始化完成！");
+				return null;
 			},
-			setValue(val) {
+			setContent(val) { //以有历史记录方式设置编辑器值（为了撤销操作）
 				const _this = this;
 
 				_this.$nextTick(() => {
-					let editot = _this.getEditor();
-					if (editot) {
-						_this.editor.setValue(val, 1);
+					let ed = _this.getEditor();
+					if (ed && val != _this.content) {
+						ed.setValue(val, 1);
 					}
 				});
 			},
-			beautify() {
+			getSelectedContent() { //获取编辑器选中内容
+				const _this = this;
+
+				let ed = _this.getEditor();
+				if (ed) {
+					return ed.session.getTextRange(ed.getSelectionRange());
+				}
+			},
+			beautify() { //美化
 				const _this = this;
 
 				if (_this.content) {
 					try {
-						_this.setValue(beaTool.sql(_this.content));
+						_this.setContent(beaTool.sql(_this.content));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
 				}
 			},
-			compression() {
+			compression() { //压缩
 				const _this = this;
 
 				if (_this.content) {
 					try {
-						_this.setValue(beaTool.sqlmin(beaTool.sql(_this.content)));
+						_this.setContent(beaTool.sqlmin(beaTool.sql(_this.content)));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
 				}
 			},
-			getSelectedText() {
+			exec() { //执行SQL
 				const _this = this;
 
-				let editot = _this.getEditor();
-				if (editot) {
-					alert(11);
+				let sql = _this.content;
+				if (!sql) {
+					_this.$bus.emit("showError", "请先键入SQL语句！");
+					return;
 				}
-			},
-			exec() {
-				const _this = this;
 
-				_this.$bus.emit("sqlExec", _this.content);
+				let selectedContent = _this.getSelectedContent();
+				if (selectedContent === undefined) {
+					return;
+				} else if (selectedContent) {
+					sql = selectedContent;
+				}
+
+				_this.$bus.emit("sqlExec", sql);
 			},
-			initCopySql() {
+			initCopySql() { //初始化 复制按钮 将SQL复制到粘贴板功能
 				const _this = this;
 
 				_this.destroyClipboard();
@@ -148,14 +247,14 @@
 					_this.$bus.emit("showError", "SQL复制失败！");
 				});
 			},
-			destroyClipboard() {
+			destroyClipboard() { //销毁 复制按钮 将SQL复制到粘贴板功能
 				const _this = this;
 
 				if (_this.clipboard) {
 					_this.clipboard.destroy();
 				}
 			},
-			saveSql() {
+			saveSql() { //将SQL通过 .sql 文件保存到本地
 				const _this = this;
 
 				let sql = _this.content || "";
@@ -163,7 +262,7 @@
 				let blob = new Blob([sql], {
 					type: "text/plain;charset=utf-8"
 				});
-				fileSaver.saveAs(blob, "SQL for h3yun.sql");
+				fileSaver.saveAs(blob, "SQL for h3yun.txt");
 			}
 		},
 		components: {
@@ -172,10 +271,11 @@
 		mounted() {
 			const _this = this;
 
-			_this.initCopySql();
+			_this.addCommands();
+			_this.addCompleters();
+			_this.editor.on("change", _this.contentChange);
 
-			_this.editor = _this.$refs.editor.editor;
-			window.ed = _this.editor;
+			_this.initCopySql();
 		},
 		destroyed() {
 			_this.destroyClipboard();
@@ -184,6 +284,11 @@
 </script>
 
 <style scoped>
+	/deep/ .ace_search {
+		top: 30px;
+		right: 30px !important;
+	}
+
 	.sqlEditor {
 		width: 100%;
 	}
@@ -214,10 +319,5 @@
 
 	.editor {
 		font-size: 16px;
-	}
-
-	/deep/ .ace_search {
-		top: 30px;
-		right: 30px !important;
 	}
 </style>

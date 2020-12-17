@@ -8,7 +8,7 @@
 			 maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无结果集" :data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
 
-		<Spin v-if="false" size="large" fix></Spin>
+		<Spin v-show="showLoading" size="large" fix></Spin>
 	</Master>
 </template>
 
@@ -17,6 +17,8 @@
 	import SqlEditor from "../../components/SqlEditor.vue";
 
 	import apiHelper from "../../utils/apiHelper.js";
+	
+	let onSqlExec_t = null;
 
 	export default {
 		data() {
@@ -25,8 +27,31 @@
 				topHeight: 0,
 				bottomHeight: 0,
 				onDrag: false,
-				tableData: null
+				tableData: null,
+				
+				onSqlExec: false,
+				showLoading: false
 			};
+		},
+		watch: {
+			onSqlExec(flag) {
+				const _this = this;
+				
+				if (onSqlExec_t) {
+					clearTimeout(onSqlExec_t);
+				}
+				onSqlExec_t = null;
+
+				if (flag) {
+					onSqlExec_t = setTimeout(() => {
+						if (_this.onSqlExec) {
+							_this.showLoading = true;
+						}
+					}, 100); //如果加载过短，不显示loading，提升体验
+				} else {
+					_this.showLoading = false;
+				}
+			}
 		},
 		methods: {
 			initSplitRate() {
@@ -53,12 +78,17 @@
 				_this.initTableData();
 
 				if (sql) {
+					_this.onSqlExec = true;
 					apiHelper.CheckSQL(sql).then((data) => {
 						_this.setTableData(data);
 						_this.initSplitRate();
 						_this.calcPanelHeight();
+
+						_this.onSqlExec = false;
 					}).catch((error) => {
 						_this.$bus.emit("showError", error);
+
+						_this.onSqlExec = false;
 					});
 				}
 			},

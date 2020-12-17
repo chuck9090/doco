@@ -2,12 +2,12 @@
 require("../singleDataQuery/addSingleDataQueryMenus.js");
 
 //sql页面
-chrome.tabs.create({
-	url: chrome.extension.getURL(
-		"sqlExec.html"
-	),
-	selected: true
-});
+// chrome.tabs.create({
+// 	url: chrome.extension.getURL(
+// 		"sqlExec.html"
+// 	),
+// 	selected: true
+// });
 
 //表单数据查看页面
 // chrome.tabs.create({
