@@ -13,7 +13,7 @@ const apiHelper = {
 					"EngineCode": engineCode,
 					"EngineSecret": engineSecret
 				},
-				timeout: 5000
+				timeout: 15000
 			}).then((response) => {
 				if (response.status == 200 && response.data) {
 					if (response.data.Successful && response.data.ReturnData) {
@@ -24,7 +24,7 @@ const apiHelper = {
 						reject("氚云Invoke接口响应数据异常！");
 					}
 				} else {
-					reject("氚云Invoke接口请求失败！");
+					reject("氚云Invoke接口响应状态异常！");
 				}
 			}).catch((error) => {
 				reject("氚云Invoke接口请求失败！");
@@ -57,7 +57,7 @@ const apiHelper = {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
 				},
-				timeout: 5000
+				timeout: 15000
 			}).then((response) => {
 				if (response.status == 200 && response.data) {
 					if (response.data.Successful && response.data.ReturnData) {
@@ -68,7 +68,7 @@ const apiHelper = {
 						reject("氚云OnAction接口响应数据异常！");
 					}
 				} else {
-					reject("氚云OnAction接口请求失败！");
+					reject("氚云OnAction接口响应状态异常！");
 				}
 			}).catch((error) => {
 				reject("氚云OnAction接口请求失败！");

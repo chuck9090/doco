@@ -1,13 +1,13 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const ZipPlugin = require("zip-webpack-plugin")
+const ZipPlugin = require("zip-webpack-plugin");
 const path = require("path");
 const fs = require("fs");
 
-function getPackageVersion() {
+const packageInfo = (()=>{
 	const pkgPath = path.join(__dirname, "package.json");
 	const pkgData = JSON.parse(fs.readFileSync(pkgPath));
-	return pkgData.version;
-}
+	return pkgData;
+})();
 
 // Generate pages object
 const pagesObj = {};
@@ -41,7 +41,7 @@ const plugins = [
 			to: `${path.resolve(proFileName)}/assets`
 		}
 	])
-]
+];
 
 // 开发环境将热加载文件复制到dist文件夹
 if (process.env.NODE_ENV !== "production") {
@@ -58,7 +58,7 @@ if (process.env.NODE_ENV === "production") {
 	plugins.push(
 		new ZipPlugin({
 			path: path.resolve("zip/"),
-			filename: `doco_${getPackageVersion()}.zip`,
+			filename: `doco_${packageInfo.version}.zip`,
 		})
 	)
 }
@@ -76,7 +76,7 @@ module.exports = {
 		output: {
 			filename: "js/[name].js"
 		},
-		plugins: plugins,
+		plugins: plugins
 	},
 	css: {
 		extract: {

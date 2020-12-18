@@ -135,11 +135,7 @@
 
 				let completers = [{
 					getCompletions(editor, session, pos, prefix, callback) {
-						if (prefix === "h" || prefix === "H") {
-							return callback(null, sqlEditorCompleterWords.completerWordsForSystemTable);
-						}
-
-						return callback(null, []);
+						return callback(null, sqlEditorCompleterWords.completerWordsForSystemTable);
 					}
 				}];
 
