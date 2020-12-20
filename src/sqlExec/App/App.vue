@@ -17,7 +17,7 @@
 	import SqlEditor from "../../components/SqlEditor.vue";
 
 	import apiHelper from "../../utils/apiHelper.js";
-	
+
 	let onSqlExec_t = null;
 
 	export default {
@@ -28,7 +28,7 @@
 				bottomHeight: 0,
 				onDrag: false,
 				tableData: null,
-				
+
 				onSqlExec: false,
 				showLoading: false
 			};
@@ -36,7 +36,7 @@
 		watch: {
 			onSqlExec(flag) {
 				const _this = this;
-				
+
 				if (onSqlExec_t) {
 					clearTimeout(onSqlExec_t);
 				}

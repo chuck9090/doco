@@ -27,31 +27,23 @@
 	import fileSaver from '../utils/fileSaver.js';
 	import beaTool from "../utils/beaTool.js";
 
-
 	import sqlEditorCompleterWords from "@/utils/sqlEditorCompleterWords";
 
 	export default {
 		data() {
 			return {
 				operationHieght: 52, //操作面板高度
-				clipboard: null,
-				content: "select objectid,name from h_user",
+				clipboard: null, //复制插件对象
+				content: "select objectid,name from h_user", //内容
 				editorOptions: {
-					//自动完成
-					enableBasicAutocompletion: true,
+					enableBasicAutocompletion: true, //自动完成
 					enableSnippets: true,
-					// 自动补全
-					enableLiveAutocompletion: true,
-					// 编辑器中间的参考竖线
-					showPrintMargin: false,
-					// 自动换行
-					wrap: "free",
-					//批量选中
-					enableMultiselect: false,
-					//固定行号区域宽度
-					fixedWidthGutter: true,
-					//启用快速完成功能
-					enableEmmet: true,
+					enableLiveAutocompletion: true, // 自动补全
+					showPrintMargin: false, // 编辑器中间的参考竖线
+					wrap: "free", // 自动换行
+					enableMultiselect: false, //批量选中
+					fixedWidthGutter: true, //固定行号区域宽度（似乎无效）
+					enableEmmet: true, //启用快速完成功能
 					tabSize: 2,
 					fontSize: 16
 				},
