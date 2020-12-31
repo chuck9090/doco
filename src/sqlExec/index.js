@@ -27,7 +27,7 @@ Vue.prototype.$Spin = viewui.Spin;
 import AppComponent from "./App/App.vue";
 Vue.component("app-component", AppComponent);
 
-import VueBus from "../utils/vueBus.js";
+import VueBus from "@/utils/vueBus.js";
 Vue.use(VueBus);
 
 new Vue({

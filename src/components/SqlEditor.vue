@@ -24,17 +24,20 @@
 
 <script>
 	import ClipboardJS from "clipboard";
-	import fileSaver from '../utils/fileSaver.js';
-	import beaTool from "../utils/beaTool.js";
+	import fileSaver from '@/utils/fileSaver.js';
+	import {
+		sqlBeautify,
+		sqlMin
+	} from "@/utils/beaTool.js";
 
-	import sqlEditorCompleterWords from "@/utils/sqlEditorCompleterWords";
+	import sqlEditorCompleterWords from "@/utils/sqlEditorCompleterWords/index.js";
 
 	export default {
 		data() {
 			return {
 				operationHieght: 52, //操作面板高度
 				clipboard: null, //复制插件对象
-				content: "select objectid,name from h_user", //内容
+				content: "", //内容
 				editorOptions: {
 					enableBasicAutocompletion: true, //自动完成
 					enableSnippets: true,
@@ -57,11 +60,26 @@
 		props: {
 			height: {
 				type: Number
+			},
+			sqlContent: {
+				type: String,
+				default: ""
+			},
+			sqlChange: {
+				type: Function,
+				default: () => {}
+			},
+			sqlExec: {
+				type: Function,
+				default: () => {}
 			}
 		},
 		watch: {
 			height(val) {
 				this.editorSetting.height = (val - this.operationHieght) + "px";
+			},
+			sqlContent(val) {
+				this.setContent(val);
 			}
 		},
 		methods: {
@@ -147,6 +165,10 @@
 				if (_this.editor) {
 					_this.editor.execCommand("startAutocomplete");
 				}
+
+				if (_this.sqlChange) {
+					_this.sqlChange(_this.content);
+				}
 			},
 			getEditor() { //获取编辑器对象
 				const _this = this;
@@ -180,7 +202,7 @@
 
 				if (_this.content) {
 					try {
-						_this.setContent(beaTool.sql(_this.content));
+						_this.setContent(sqlBeautify(_this.content));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
@@ -191,7 +213,7 @@
 
 				if (_this.content) {
 					try {
-						_this.setContent(beaTool.sqlmin(beaTool.sql(_this.content)));
+						_this.setContent(sqlMin(sqlBeautify(_this.content)));
 					} catch (e) {
 						_this.$bus.emit("showError", e);
 					}
@@ -213,7 +235,9 @@
 					sql = selectedContent;
 				}
 
-				_this.$bus.emit("sqlExec", sql);
+				if (_this.sqlExec) {
+					_this.sqlExec(sql);
+				}
 			},
 			initCopySql() { //初始化 复制按钮 将SQL复制到粘贴板功能
 				const _this = this;
@@ -242,7 +266,7 @@
 					_this.clipboard.destroy();
 				}
 			},
-			saveSql() { //将SQL通过 .sql 文件保存到本地
+			saveSql() { //将SQL通过 文件保存到本地
 				const _this = this;
 
 				let sql = _this.content || "";

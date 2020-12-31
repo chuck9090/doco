@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import apiHelper from "../utils/apiHelper.js";
+	import apiHelper from "@/utils/apiHelper.js";
 
 	export default {
 		data() {
@@ -53,7 +53,7 @@
 				}
 				this.$Message.success({
 					background: true,
-					duration: 4.5,
+					duration: 5,
 					content: msg
 				});
 			},
@@ -63,7 +63,7 @@
 				}
 				this.$Message.error({
 					background: true,
-					duration: 4.5,
+					duration: 5,
 					content: msg
 				});
 			},

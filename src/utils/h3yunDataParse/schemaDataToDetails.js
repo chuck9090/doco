@@ -20,7 +20,7 @@ const schemaDataToDetails = {
 	},
 	//系统其它补充字段
 	filterKeys: ["ActivityCode", "InstanceId", "InstanceName", "OriginateDate", "OriginateFullTime", "OriginateTime",
-		"Originator"
+		"Originator", "IconId"
 	],
 	//筛选掉键不符合的字段
 	filterKey(key) {

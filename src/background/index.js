@@ -1,13 +1,13 @@
 //加入 氚云列表页，数据标题字段 鼠标右键查看完整数据 功能
-require("../singleDataQuery/addSingleDataQueryMenus.js");
+require("@/singleDataQuery/addSingleDataQueryMenus.js");
 
 //sql页面
-// chrome.tabs.create({
-// 	url: chrome.extension.getURL(
-// 		"sqlExec.html"
-// 	),
-// 	selected: true
-// });
+chrome.tabs.create({
+	url: chrome.extension.getURL(
+		"sqlExec.html"
+	),
+	selected: true
+});
 
 //表单数据查看页面
 // chrome.tabs.create({

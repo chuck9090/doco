@@ -1,6 +1,14 @@
 # doco 说明
 `vue-cli3` + `webpack4` + `View UI`  实现编译打包Chrome浏览器插件
 
+# 功能库说明
+- axios：ajax请求
+- clipboard：复制到粘贴板
+- decomment：去代码注释（用于用户书写的代码）
+- sql-formatter：sql语句美化
+- view-design：View UI组件库
+- vue2-ace-editor：AceEditor前端编辑器
+
 # 资料参考
 [vue-cli3开发Chrome插件实践](https://blog.csdn.net/weixin_34404393/article/details/91476348)
 

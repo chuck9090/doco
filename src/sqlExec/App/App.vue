@@ -1,6 +1,7 @@
 <template>
 	<Master>
-		<SqlEditor style="position:relative;z-index:1;" :height="topHeight"></SqlEditor>
+		<SqlEditor style="position:relative;z-index:1;" :height="topHeight" :sqlContent="sqlContent" :sqlExec="sqlExec"
+		 :sqlChange="sqlContentToCache"></SqlEditor>
 
 		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-move-start="onDrag=true"
 		 @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
@@ -13,23 +14,24 @@
 </template>
 
 <script>
-	import Master from "../../components/Master.vue";
-	import SqlEditor from "../../components/SqlEditor.vue";
+	import Master from "@/components/Master.vue";
+	import SqlEditor from "@/components/SqlEditor.vue";
 
-	import apiHelper from "../../utils/apiHelper.js";
-
-	let onSqlExec_t = null;
+	import apiHelper from "@/utils/apiHelper.js";
 
 	export default {
 		data() {
 			return {
+				sqlContent: "",
+				tableData: null,
+
 				splitRate: 0.8,
 				topHeight: 0,
 				bottomHeight: 0,
 				onDrag: false,
-				tableData: null,
 
 				onSqlExec: false,
+				onSqlExec_t: null,
 				showLoading: false
 			};
 		},
@@ -37,13 +39,13 @@
 			onSqlExec(flag) {
 				const _this = this;
 
-				if (onSqlExec_t) {
-					clearTimeout(onSqlExec_t);
+				if (_this.onSqlExec_t) {
+					clearTimeout(_this.onSqlExec_t);
 				}
-				onSqlExec_t = null;
+				_this.onSqlExec_t = null;
 
 				if (flag) {
-					onSqlExec_t = setTimeout(() => {
+					_this.onSqlExec_t = setTimeout(() => {
 						if (_this.onSqlExec) {
 							_this.showLoading = true;
 						}
@@ -170,15 +172,20 @@
 				} catch (e) {
 					_this.$bus.emit("showError", e);
 				}
+			},
+			sqlContentToCache(content) { //将用户输入的 sql 缓存进 localStorage
+				if (content) {
+					console.log(content)
+				}
 			}
 		},
 		mounted() {
 			const _this = this;
 
 			_this.$bus.emit("getMasterData", () => {
-				_this.$bus.on("sqlExec", _this.sqlExec);
-
 				_this.calcPanelHeight();
+
+				_this.sqlContent = "SELECT ObjectId,Name FROM H_User";
 			});
 		},
 		components: {

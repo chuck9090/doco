@@ -15,14 +15,14 @@
 </template>
 
 <script>
-	import commonObj from "../../utils/common.js";
-	import apiHelper from "../../utils/apiHelper.js";
-	import schemaDataToSimple from "../../utils/h3yunDataParse/schemaDataToSimple.js";
-	import schemaDataToDetails from "../../utils/h3yunDataParse/schemaDataToDetails.js";
+	import commonObj from "@/utils/common.js";
+	import apiHelper from "@/utils/apiHelper.js";
+	import schemaDataToSimple from "@/utils/h3yunDataParse/schemaDataToSimple.js";
+	import schemaDataToDetails from "@/utils/h3yunDataParse/schemaDataToDetails.js";
 
-	import Master from "../../components/Master.vue";
-	import JsonEditor from "../../components/JsonEditor.vue";
-	import Schema from "../../components/Schema.vue";
+	import Master from "@/components/Master.vue";
+	import JsonEditor from "@/components/JsonEditor.vue";
+	import Schema from "@/components/Schema.vue";
 
 	export default {
 		data() {
