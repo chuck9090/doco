@@ -15,8 +15,13 @@
 </template>
 
 <script>
-	import commonObj from "@/utils/common.js";
-	import apiHelper from "@/utils/apiHelper.js";
+	import {
+		getQueryString,
+		toBeautifyJson
+	} from "@/utils/common.js";
+	import {
+		LoadSingleData
+	} from "@/utils/apiHelper.js";
 	import schemaDataToSimple from "@/utils/h3yunDataParse/schemaDataToSimple.js";
 	import schemaDataToDetails from "@/utils/h3yunDataParse/schemaDataToDetails.js";
 
@@ -40,8 +45,8 @@
 				_this.bizInfo = null;
 				const qParam = window.location.search;
 				if (qParam) {
-					let schemaCode = commonObj.getQueryString(qParam, "SchemaCode");
-					let bizObjectId = commonObj.getQueryString(qParam, "BizObjectId");
+					let schemaCode = getQueryString(qParam, "SchemaCode");
+					let bizObjectId = getQueryString(qParam, "BizObjectId");
 					if (schemaCode && bizObjectId) {
 						_this.bizInfo = {
 							"schemaCode": schemaCode,
@@ -58,11 +63,11 @@
 				const _this = this;
 
 				if (_this.bizInfo) {
-					apiHelper.LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
-						_this.sourceJson = commonObj.toBeautifyJson(data);
+					LoadSingleData(_this.bizInfo.schemaCode, _this.bizInfo.bizObjectId).then((data) => {
+						_this.sourceJson = toBeautifyJson(data);
 
 						let jsonData = schemaDataToSimple.toSimple(data);
-						_this.jsonStr = commonObj.toBeautifyJson(jsonData);
+						_this.jsonStr = toBeautifyJson(jsonData);
 
 						_this.schemaData = schemaDataToDetails.toDetails(data);
 					}).catch((error) => {
@@ -81,7 +86,7 @@
 
 			_this.$bus.emit("getMasterData", (masterData) => {
 				_this.getParamByUrl();
-				
+
 				_this.loadData();
 			});
 		},

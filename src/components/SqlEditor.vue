@@ -145,7 +145,7 @@
 
 				let completers = [{
 					getCompletions(editor, session, pos, prefix, callback) {
-						return callback(null, sqlEditorCompleterWords.completerWordsForSystemTable);
+						return callback(null, sqlEditorCompleterWords);
 					}
 				}];
 

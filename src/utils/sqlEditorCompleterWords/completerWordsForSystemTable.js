@@ -1,4 +1,4 @@
-const completerWordsForSystemTable = [{
+const cWords = [{
 	caption: "H_Company",
 	meta: "系统表：公司",
 	value: "H_Company"
@@ -56,4 +56,4 @@ const completerWordsForSystemTable = [{
 	value: "H_PublishedListViewSetting"
 }];
 
-export default completerWordsForSystemTable;
+export default cWords;

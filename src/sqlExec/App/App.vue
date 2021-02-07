@@ -17,7 +17,9 @@
 	import Master from "@/components/Master.vue";
 	import SqlEditor from "@/components/SqlEditor.vue";
 
-	import apiHelper from "@/utils/apiHelper.js";
+	import {
+		CheckSQL
+	} from "@/utils/apiHelper.js";
 
 	export default {
 		data() {
@@ -81,7 +83,7 @@
 
 				if (sql) {
 					_this.onSqlExec = true;
-					apiHelper.CheckSQL(sql).then((data) => {
+					CheckSQL(sql).then((data) => {
 						_this.setTableData(data);
 						_this.initSplitRate();
 						_this.calcPanelHeight();

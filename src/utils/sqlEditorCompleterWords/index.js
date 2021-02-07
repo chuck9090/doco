@@ -1,5 +1,8 @@
 import completerWordsForSystemTable from "./completerWordsForSystemTable.js";
+import completerWordsForCommonField from "./completerWordsForCommonField.js";
 
-export default {
-	completerWordsForSystemTable
-};
+let cWords = [];
+cWords = cWords.concat(completerWordsForSystemTable);
+cWords = cWords.concat(completerWordsForCommonField);
+
+export default cWords;

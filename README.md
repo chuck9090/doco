@@ -5,6 +5,7 @@
 - axios：ajax请求
 - clipboard：复制到粘贴板
 - decomment：去代码注释（用于用户书写的代码）
+- qs：处理请求参数、数据结构问题
 - sql-formatter：sql语句美化
 - view-design：View UI组件库
 - vue2-ace-editor：AceEditor前端编辑器

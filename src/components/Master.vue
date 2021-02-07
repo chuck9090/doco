@@ -32,7 +32,11 @@
 </template>
 
 <script>
-	import apiHelper from "@/utils/apiHelper.js";
+	import {
+		GetUserInfo,
+		GetCustomerInfo,
+		GetCompanyDevelopmentInfo
+	} from "@/utils/apiHelper.js";
 
 	export default {
 		data() {
@@ -71,7 +75,7 @@
 			getUserInfo(success) {
 				const _this = this;
 
-				apiHelper.GetUserInfo().then((data) => {
+				GetUserInfo().then((data) => {
 					_this.userInfo = data;
 
 					success && success();
@@ -111,7 +115,7 @@
 			getCompanyInfo(success) {
 				const _this = this;
 
-				apiHelper.GetCustomerInfo().then((data) => {
+				GetCustomerInfo().then((data) => {
 					_this.companyInfo = data;
 
 					success && success();
@@ -123,7 +127,7 @@
 			getDevelopmentInfo(success) {
 				const _this = this;
 
-				apiHelper.GetCompanyDevelopmentInfo().then((data) => {
+				GetCompanyDevelopmentInfo().then((data) => {
 					_this.developmentInfo = data;
 
 					success && success();

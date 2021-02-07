@@ -1,4 +1,7 @@
-import commonObj from "@/utils/common.js";
+import {
+	createUrl,
+	getQueryString
+} from "@/utils/common.js";
 
 (function() {
 	//氚云列表页，数据标题字段 鼠标右键查看完整数据
@@ -13,7 +16,7 @@ import commonObj from "@/utils/common.js";
 					let queryParam = getLinkUrl(param.linkUrl)
 					if (queryParam) {
 						let url = chrome.extension.getURL("singleDataQuery.html");
-						url = commonObj.createUrl(url, queryParam);
+						url = createUrl(url, queryParam);
 						chrome.tabs.create({
 							url: url,
 							selected: true
@@ -39,8 +42,8 @@ import commonObj from "@/utils/common.js";
 			let result = url.match(/(\'|\").*(\'|\")/)[0];
 			result = result.replace(/(\'|\")/g, "");
 
-			let schemaCode = commonObj.getQueryString(result, "SchemaCode");
-			let bizObjectId = commonObj.getQueryString(result, "BizObjectId");
+			let schemaCode = getQueryString(result, "SchemaCode");
+			let bizObjectId = getQueryString(result, "BizObjectId");
 
 			if (schemaCode && bizObjectId) {
 				return {
