@@ -30,6 +30,9 @@ Vue.component("app-component", AppComponent);
 import VueBus from "@/utils/vueBus.js";
 Vue.use(VueBus);
 
+import storageHelper from "@/utils/storageHelper.js";
+Vue.use(storageHelper);
+
 new Vue({
 	el: "#app",
 	render: createElement => {

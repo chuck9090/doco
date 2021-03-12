@@ -1,12 +1,13 @@
 <template>
 	<Master>
 		<SqlEditor style="position:relative;z-index:1;" :height="topHeight" :sqlContent="sqlContent" :sqlExec="sqlExec"
-		 :sqlChange="sqlContentToCache"></SqlEditor>
+			:sqlChange="sqlContentToCache"></SqlEditor>
 
-		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1" @on-move-start="onDrag=true"
-		 @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
-			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true" :showHeader="true"
-			 maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无结果集" :data="tableData.rows" :columns="tableData.cols"></Table>
+		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1"
+			@on-move-start="onDrag=true" @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
+			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true"
+				:showHeader="true" maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无结果集"
+				:data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
 
 		<Spin v-show="showLoading" size="large" fix></Spin>
@@ -34,7 +35,9 @@
 
 				onSqlExec: false,
 				onSqlExec_t: null,
-				showLoading: false
+				showLoading: false,
+
+				cacheKeyName: "sqlExec.sqlContent"
 			};
 		},
 		watch: {
@@ -51,7 +54,7 @@
 						if (_this.onSqlExec) {
 							_this.showLoading = true;
 						}
-					}, 100); //如果加载过短，不显示loading，提升体验
+					}, 100); //如果加载时间过短，不显示loading，提升体验
 				} else {
 					_this.showLoading = false;
 				}
@@ -175,20 +178,45 @@
 					_this.$bus.emit("showError", e);
 				}
 			},
+			initSqlContent() {
+				const _this = this;
+
+				_this.$cache.getCache(_this.cacheKeyName, value => {
+					if (value === undefined || value === null) {
+						value = "SELECT ObjectId,Name FROM H_User";
+					}
+					_this.sqlContent = value;
+				});
+			},
 			sqlContentToCache(content) { //将用户输入的 sql 缓存进 localStorage
-				if (content) {
-					console.log(content)
-				}
+				const _this = this;
+
+				_this.$cache.setCache(_this.cacheKeyName, content);
+			},
+			addEvent() {
+				const _this = this;
+
+				window.addEventListener("resize", _this.calcPanelHeight, false);
+				_this.calcPanelHeight();
+			},
+			removeEvent() {
+				const _this = this;
+
+				window.removeEventListener("resize", _this.calcPanelHeight, false);
 			}
 		},
 		mounted() {
 			const _this = this;
 
 			_this.$bus.emit("getMasterData", () => {
-				_this.calcPanelHeight();
-
-				_this.sqlContent = "SELECT ObjectId,Name FROM H_User";
+				_this.addEvent();
+				_this.initSqlContent();
 			});
+		},
+		beforeDestroy() {
+			const _this = this;
+
+			_this.removeEvent();
 		},
 		components: {
 			Master,
