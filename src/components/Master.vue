@@ -9,16 +9,25 @@
 					<Col span="17">
 					<template v-if="companyInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="unselect info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
-							<Col span="8" class="info-item"><span class="unselect info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
-							<Col span="8" class="info-item"><span class="unselect info-title">版本：</span>{{getCompanyType()}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">EngineCode：</span>{{companyInfo.EngineCode}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">企业：</span>{{companyInfo.CompanyName}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">版本：</span>{{getCompanyType()}}</Col>
+							<Col span="8" class="info-item">
+							<img src="" />
+							</Col>
 						</Row>
 					</template>
 					<template v-if="userInfo!=null">
 						<Row class="sub-row" type="flex" justify="space-between">
-							<Col span="8" class="info-item"><span class="unselect info-title">UserId：</span>{{userInfo.CurUser.UserId}}</Col>
-							<Col span="8" class="info-item"><span class="unselect info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
-							<Col span="8" class="info-item"><span class="unselect info-title">权限：</span>{{getUserRole()}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">UserId：</span>{{userInfo.CurUser.UserId}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">用户：</span>{{userInfo.CurUser.Name}}</Col>
+							<Col span="8" class="info-item"><span
+								class="unselect info-title">权限：</span>{{getUserRole()}}</Col>
 						</Row>
 					</template>
 					</Col>
@@ -51,7 +60,7 @@
 
 		},
 		methods: {
-			showSuccess(msg){
+			showSuccess(msg) {
 				if (msg === undefined || msg === null || msg == "") {
 					msg = "NULL";
 				}

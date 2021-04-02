@@ -5,9 +5,9 @@
 
 		<Split ref="splitPanel" class="split" v-model="splitRate" mode="vertical" min="100px" max="1"
 			@on-move-start="onDrag=true" @on-move-end="onDrag=false" @on-moving="calcPanelHeight">
-			<Table slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true" :stripe="true"
-				:showHeader="true" maxWidth="100%" :maxHeight="bottomHeight" size="small" noDataText="无结果集"
-				:data="tableData.rows" :columns="tableData.cols"></Table>
+			<Table ref="table" slot="bottom" class="table" v-if="tableData" v-show="!onDrag" :border="true"
+				:stripe="true" :showHeader="true" maxWidth="100%" :maxHeight="bottomHeight" size="small"
+				noDataText="无结果集" :data="tableData.rows" :columns="tableData.cols"></Table>
 		</Split>
 
 		<Spin v-show="showLoading" size="large" fix></Spin>
@@ -162,7 +162,16 @@
 								type: "index",
 								width: indexColWidth,
 								align: "center",
-								fixed: "left"
+								fixed: "left",
+								renderHeader: h => {
+									return h("span", {
+										on: {
+											click: () => {
+												_this.exportCsv();
+											}
+										}
+									}, "ex")
+								}
 							});
 							tData["cols"] = columns;
 						} else {
@@ -177,6 +186,13 @@
 				} catch (e) {
 					_this.$bus.emit("showError", e);
 				}
+			},
+			exportCsv: function() {
+				const _this = this;
+
+				_this.$refs.table.exportCsv({
+					filename: "The table data.csv"
+				});
 			},
 			initSqlContent() {
 				const _this = this;

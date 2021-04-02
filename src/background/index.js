@@ -1,3 +1,6 @@
+//chrome插件安装、卸载、运作事件处理
+require("@/background/runtime.js");
+
 //加入 氚云列表页，数据标题字段 鼠标右键查看完整数据 功能
 require("@/singleDataQuery/addSingleDataQueryMenus.js");
 
@@ -18,12 +21,4 @@ chrome.tabs.create({
 // 	selected: true
 // });
 
-chrome.runtime.onInstalled.addListener(details => {
-	if (details.reason === "install" || details.reason === "update") {
-		chrome.storage.local.clear();
-	}
-});
 
-chrome.runtime.onSuspend.addListener(() => {
-	chrome.storage.local.clear();
-});
