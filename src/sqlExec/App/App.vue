@@ -21,6 +21,9 @@
 	import {
 		CheckSQL
 	} from "@/utils/apiHelper.js";
+	import {
+		exportXLSXByJSON
+	} from "@/utils/exportTableToXLSX.js"
 
 	export default {
 		data() {
@@ -119,6 +122,23 @@
 
 				return panelWidth;
 			},
+			getTableExportEle(h) {
+				var _this = this;
+
+				return h("Button", {
+					"attrs": {
+						"shape": "circle",
+						"size": "small",
+						"icon": "md-grid",
+						"type": "info"
+					},
+					"on": {
+						"click": () => {
+							_this.exportCsv();
+						}
+					}
+				});
+			},
 			setTableData(data) {
 				const _this = this;
 
@@ -163,15 +183,7 @@
 								width: indexColWidth,
 								align: "center",
 								fixed: "left",
-								renderHeader: h => {
-									return h("span", {
-										on: {
-											click: () => {
-												_this.exportCsv();
-											}
-										}
-									}, "ex")
-								}
+								renderHeader: _this.getTableExportEle
 							});
 							tData["cols"] = columns;
 						} else {
@@ -190,9 +202,27 @@
 			exportCsv: function() {
 				const _this = this;
 
-				_this.$refs.table.exportCsv({
-					filename: "The table data.csv"
-				});
+				// _this.$refs.table.exportCsv({
+				// 	filename: "The table data.csv"
+				// });
+
+				let data = [];
+				if (_this.tableData && _this.tableData.cols && _this.tableData.cols.length) {
+					let header = [];
+					_this.tableData.cols.forEach((e, i) => {
+						if (e.type !== "index") {
+							header.push(e.title);
+						}
+					});
+					data.push(header);
+				}
+				if (_this.tableData && _this.tableData.rows && _this.tableData.rows.length) {
+					_this.tableData.rows.forEach((e, i) => {
+						data.push(Object.values(e));
+					});
+				}
+
+				exportXLSXByJSON(data, "sheet1", "The table data.xlsx");
 			},
 			initSqlContent() {
 				const _this = this;

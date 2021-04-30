@@ -24,7 +24,7 @@
 
 <script>
 	import ClipboardJS from "clipboard";
-	import fileSaver from '@/utils/fileSaver.js';
+	import fileSaver from "@/utils/fileSaver.js";
 	import {
 		sqlBeautify,
 		sqlMin
