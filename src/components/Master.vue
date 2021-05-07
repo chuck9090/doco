@@ -4,7 +4,7 @@
 			<Header class="header">
 				<Row>
 					<Col span="3">
-					<img class="unselect logo" src="../assets/logo.png" alt="" />
+					<img class="unselect logo" src="@/assets/logo.png" alt="" />
 					</Col>
 					<Col span="17">
 					<template v-if="companyInfo!=null">

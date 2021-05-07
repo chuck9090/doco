@@ -130,7 +130,8 @@
 						"shape": "circle",
 						"size": "small",
 						"icon": "md-grid",
-						"type": "info"
+						"type": "info",
+						"title": "导出xlsx"
 					},
 					"on": {
 						"click": () => {

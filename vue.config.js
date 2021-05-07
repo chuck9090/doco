@@ -11,7 +11,7 @@ const packageInfo = (()=>{
 
 // Generate pages object
 const pagesObj = {};
-const chromeName = ["popup", "options", "singleDataQuery", "sqlExec"];
+const chromeName = ["popup", "setting", "singleDataQuery", "sqlExec"];
 
 const proFileName = "dist";
 
