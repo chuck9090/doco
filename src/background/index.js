@@ -22,11 +22,11 @@ require("@/singleDataQuery/addSingleDataQueryMenus.js");
 // });
 
 //初始时打开设置页面
-chrome.tabs.create({
-	url: chrome.extension.getURL(
-		"setting.html"
-	),
-	selected: true
-});
+// chrome.tabs.create({
+// 	url: chrome.extension.getURL(
+// 		"setting.html"
+// 	),
+// 	selected: true
+// });
 
 
