@@ -17,8 +17,10 @@ Vue.component("Affix", viewui.Affix);
 Vue.component("Row", viewui.Row);
 Vue.component("Col", viewui.Col);
 Vue.component("Icon", viewui.Icon);
-
-
+Vue.component("Form", viewui.Form);
+Vue.component("FormItem", viewui.FormItem);
+Vue.component("Button", viewui.Button);
+Vue.component("Input", viewui.Input);
 
 import AppComponent from "./App/App.vue";
 Vue.component("app-component", AppComponent);

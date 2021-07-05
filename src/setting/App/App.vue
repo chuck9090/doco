@@ -13,7 +13,16 @@
 			</Header>
 			<Layout class="content">
 				<Content class="left">
-					Content
+					<Form :model="config" :label-width="80">
+						<FormItem>
+							<Button type="primary">保存</Button>
+							<Button style="margin-left: 8px">重置</Button>
+						</FormItem>
+						<FormItem label="Input">
+							<Input v-model="config.config_gitee_repository_username"
+								placeholder="Enter something..."></Input>
+						</FormItem>
+					</Form>
 				</Content>
 				<Sider class="right" hide-trigger>
 					<Anchor class="anchors" show-ink v-if="menus&&menus.length">
@@ -26,7 +35,6 @@
 					</Anchor>
 				</Sider>
 			</Layout>
-			<Footer class="footer">保存</Footer>
 		</Layout>
 	</div>
 </template>
@@ -34,15 +42,42 @@
 <script>
 	export default {
 		data() {
-			return {
-				menus: [{
-					key: "config_gitee",
-					name: "Gitee 配置",
-					menuItems: [{
-						key: "config_gitee_repository",
-						name: "仓库"
+			let menus = [{
+				key: "config_gitee",
+				name: "Gitee 配置",
+				menuItems: [{
+					key: "config_gitee_repository",
+					name: "仓库",
+					values: [{
+						key: "config_gitee_repository_username",
+						name: "用户名",
+						placeholder: "Gitee账户 用户名",
+						value: ""
 					}]
 				}]
+			}];
+
+			let config = {};
+
+			if (menus && menus.length) {
+				menus.forEach((e, i) => {
+					if (e && e.menuItems && e.menuItems.length) {
+						e.menuItems.forEach((mi, j) => {
+							if (mi.values && mi.values.length) {
+								mi.values.forEach((v, k) => {
+									if (v.key) {
+										config[v.key] = v.value;
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+
+			return {
+				menus: menus,
+				config: config
 			};
 		}
 	}
@@ -107,11 +142,5 @@
 	.right {
 		padding: 10px;
 		background: #fff !important;
-	}
-
-	.footer {
-		position: absolute;
-		bottom: 0;
-		width: 100%;
 	}
 </style>
