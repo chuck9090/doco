@@ -4,10 +4,10 @@
 ## 功能库说明
 `vue-cli3` + `webpack4` + `View UI`  实现编译打包Chrome浏览器插件
 - axios：ajax请求
-- clipboard：复制到粘贴板
-- decomment：去代码注释（用于用户书写的代码）
+- clipboard：剪贴板
+- decomment：去代码注释
 - qs：处理请求参数、数据结构问题
-- sql-formatter：sql语句美化
+- sql-formatter：代码美化
 - view-design：View UI组件库
 - vue2-ace-editor：AceEditor前端编辑器
 
